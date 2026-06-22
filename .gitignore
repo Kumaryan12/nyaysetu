@@ -1,0 +1,26 @@
+.env.example
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+.venv/
+venv/
+env/
+
+# Environment variables
+.env
+
+# Vector DB / generated data
+backend/app/data/vector_db/
+backend/app/data/processed/*.jsonl
+backend/.venv
+# OS files
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log

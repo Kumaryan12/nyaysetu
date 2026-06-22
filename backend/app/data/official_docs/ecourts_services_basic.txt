@@ -1,0 +1,9 @@
+eCourts Services Basic Information
+
+The eCourts Services portal provides access to court-related services in India.
+
+Users can use eCourts Services to check case status, court orders, cause lists, caveat search, and court location information.
+
+The portal is useful when a person already has case-related details such as case number, party name, advocate name, filing number, FIR number, or court information.
+
+NyayaSetu should explain that eCourts is for court information access. It should not claim to decide a case outcome. For case-specific interpretation of court orders or legal strategy, users should contact a qualified lawyer or the appropriate legal services authority.

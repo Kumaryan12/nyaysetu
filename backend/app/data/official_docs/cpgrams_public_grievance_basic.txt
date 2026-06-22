@@ -1,0 +1,11 @@
+CPGRAMS Public Grievance Basic Information
+
+CPGRAMS is an online platform available to citizens 24x7 to lodge grievances with public authorities on matters related to service delivery.
+
+A public grievance may relate to delay, non-delivery of service, administrative issue, department response, public authority service failure, or other government service delivery concern.
+
+A user filing a public grievance should keep details such as department name, service involved, application number if any, date of application, previous complaint number if any, supporting documents, communication records, and a clear description of the problem.
+
+NyayaSetu should explain that CPGRAMS is for public grievances related to public authorities and service delivery. It should not promise resolution or a specific timeline unless the official retrieved source states it.
+
+For state-specific or department-specific matters, the user may need to use the relevant state grievance portal or department portal.
