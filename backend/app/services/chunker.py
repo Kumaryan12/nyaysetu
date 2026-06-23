@@ -33,16 +33,6 @@ def split_words_with_overlap(
     chunk_size_words: int,
     overlap_words: int,
 ) -> List[List[str]]:
-    """
-    Splits words into overlapping chunks.
-
-    Example:
-        chunk_size_words = 450
-        overlap_words = 75
-
-    Chunk 1: words 0-449
-    Chunk 2: words 375-824
-    """
 
     if chunk_size_words <= 0:
         raise ValueError("chunk_size_words must be positive.")
@@ -74,10 +64,6 @@ def chunk_document(
     chunk_size_words: int = 450,
     overlap_words: int = 75,
 ) -> List[DocumentChunk]:
-    """
-    Splits a single loaded document into chunks.
-    """
-
     normalized_text = normalize_text_for_chunking(document.text)
 
     words = normalized_text.split()
@@ -124,9 +110,6 @@ def chunk_documents(
     chunk_size_words: int = 450,
     overlap_words: int = 75,
 ) -> List[DocumentChunk]:
-    """
-    Splits multiple loaded documents into chunks.
-    """
 
     all_chunks: List[DocumentChunk] = []
 
@@ -143,14 +126,6 @@ def chunk_documents(
 
 
 def save_chunks_jsonl(chunks: List[DocumentChunk], output_path: str) -> None:
-    """
-    Saves chunks into a JSONL file.
-
-    JSONL means:
-        One JSON object per line.
-
-    This is useful for debugging and later indexing.
-    """
 
     path = Path(output_path)
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -162,9 +137,6 @@ def save_chunks_jsonl(chunks: List[DocumentChunk], output_path: str) -> None:
 
 
 def load_chunks_jsonl(input_path: str) -> List[DocumentChunk]:
-    """
-    Loads chunks back from JSONL.
-    """
 
     path = Path(input_path)
 

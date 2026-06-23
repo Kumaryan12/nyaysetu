@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import List
+from typing import List, Optional
 
 import torch
 from pydantic import BaseModel
@@ -11,18 +11,20 @@ class MLClassificationResult(BaseModel):
     confidence: float
     top_categories: List[str]
     top_scores: List[float]
+    model_available: bool = True
 
 
 class FineTunedIssueClassifier:
     """
-    Loads the fine-tuned XLM-R issue classifier.
+    Loads and runs the fine-tuned XLM-R issue classifier.
 
-    This should be initialized once when the backend starts.
+    Expected model path:
+    nyayasetu/ml/saved_models/issue_classifier_xlmr
     """
 
     def __init__(self):
-        backend_root = Path(__file__).resolve().parents[2]
-        project_root = backend_root.parent
+        backend_dir = Path(__file__).resolve().parents[2]
+        project_root = backend_dir.parent
 
         self.model_path = (
             project_root
@@ -35,13 +37,13 @@ class FineTunedIssueClassifier:
             raise FileNotFoundError(
                 "Fine-tuned issue classifier not found at: "
                 + str(self.model_path)
-                + ". Train it first using ml/training/train_issue_classifier.py"
             )
 
         self.tokenizer = AutoTokenizer.from_pretrained(str(self.model_path))
         self.model = AutoModelForSequenceClassification.from_pretrained(
             str(self.model_path)
         )
+
         self.model.eval()
 
     def classify(self, text: str) -> MLClassificationResult:
@@ -57,7 +59,8 @@ class FineTunedIssueClassifier:
             outputs = self.model(**inputs)
             probs = torch.softmax(outputs.logits, dim=-1)[0]
 
-        top = torch.topk(probs, k=min(3, probs.shape[0]))
+        top_k = min(3, probs.shape[0])
+        top = torch.topk(probs, k=top_k)
 
         top_indices = top.indices.tolist()
         top_scores = top.values.tolist()
@@ -74,4 +77,32 @@ class FineTunedIssueClassifier:
             confidence=float(top_scores[0]),
             top_categories=top_categories,
             top_scores=[float(score) for score in top_scores],
+            model_available=True,
         )
+
+
+class SafeIssueClassifier:
+    """
+    Safe wrapper around the fine-tuned classifier.
+
+    If the saved model is missing, backend will not crash.
+    It will fall back to rule-based classification.
+    """
+
+    def __init__(self):
+        self.classifier: Optional[FineTunedIssueClassifier] = None
+        self.error: Optional[str] = None
+
+        try:
+            self.classifier = FineTunedIssueClassifier()
+        except Exception as exc:
+            self.error = str(exc)
+
+    def is_available(self) -> bool:
+        return self.classifier is not None
+
+    def classify(self, text: str) -> Optional[MLClassificationResult]:
+        if self.classifier is None:
+            return None
+
+        return self.classifier.classify(text)
