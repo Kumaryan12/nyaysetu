@@ -17,10 +17,22 @@ backend/app/data/processed/*.jsonl
 backend/.venv
 # OS files
 .DS_Store
-
+backend/ml/saved_models/issue_classifier_xlmr
 # IDE
 .vscode/
 .idea/
 
 # Logs
-*.log
+*.log.venv/
+venv/
+__pycache__/
+*.pyc
+.DS_Store
+backend/ml/*.pkl
+backend/ml/*.joblib
+backend/ml/*.h5
+backend/ml/*.pt
+backend/ml/*.csv
+backend/ml/*.json
+ml/saved_models
+ml/datasets
