@@ -5,6 +5,7 @@ URL: https://pgportal.gov.in/
 Domain: Public Grievance
 Downloaded on: 2026-06-24
 
+ᱥᱟᱱᱛᱟᱲᱤ (Santhali)
 Any Grievance sent by email will not be attended to / entertained. Please lodge your grievance on this portal.
 ABOUT CPGRAMS
 Centralised Public Grievance Redress and Monitoring System (CPGRAMS) is an online platform available to the citizens 24x7 to lodge their grievances to the public authorities on any subject related to service delivery. It is a single portal connected to all the Ministries/Departments of Government of India and States. Every Ministry and States have role-based access to this system. CPGRAMS is also accessible to the citizens through standalone mobile application downloadable through Google Play store and mobile application integrated with UMANG.
@@ -21,3 +22,20 @@ Ministries/Departments and Organisations
 under the purview of Directorate of Public Grievances(DPG), Cabinet Secretariat, GOI, you may seek help of DPG in resolution. Please
 for details.
 Government is not charging fee from the public for filing grievances. All money being paid by the public for filing grievance is going only to M/s CSC only
+WHAT'S NEW
+July 2022
+Strengthening of Machinery for Redressal of Public Grievance (CPGRAMS) (PDF - 1.05 MB)
+August 2024
+Comprehensive Guidelines for Handling the Public Grievances (PDF - 0.25 MB)
+Register / Login
+This site is designed, developed & hosted by National Informatics Centre, Ministry of Electronics & IT (MeitY), Government of India and Content owned by Department of Administrative Reforms & Public Grievances.
+Portal is Compatible with all major Browsers like Google Chrome, Mozilla Firefox, Microsoft Edge, Safari etc.
+Best Viewed in 1440 x 900 resolution
+Disclaimer
+Website Policies
+Web Information Manager
+Version 7.0.01092019.0.0, Copyright © 2026
+Last Updated On: 19-06-2026
+Total Visitors :
+7510174
+(since 19-01-2024)

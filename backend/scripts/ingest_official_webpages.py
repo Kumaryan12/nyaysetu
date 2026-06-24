@@ -13,7 +13,7 @@ BACKEND_ROOT = Path(__file__).resolve().parents[1]
 sys.path.append(str(BACKEND_ROOT))
 
 REGISTRY_PATH = BACKEND_ROOT / "app" / "data" / "source_registry" / "official_sources.json"
-OUTPUT_DIR = BACKEND_ROOT / "app" / "data" / "official_docs"
+OUTPUT_DIR = BACKEND_ROOT / "app" / "data" / "official_docs_raw"
 
 
 def clean_text(text: str) -> str:

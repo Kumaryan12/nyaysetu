@@ -1,8 +1,9 @@
 {
-  "title": "National Consumer Helpline Basic Information",
-  "source_type": "official_website_summary",
+  "title": "National Consumer Helpline",
+  "source_type": "official_webpage",
   "url": "https://consumerhelpline.gov.in/",
   "jurisdiction": "India",
   "publisher": "Department of Consumer Affairs, Government of India",
-  "last_checked": "2026-06-21"
+  "domain": "Consumer Complaint",
+  "last_checked": "2026-06-24"
 }

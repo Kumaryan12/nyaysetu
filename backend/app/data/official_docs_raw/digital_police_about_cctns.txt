@@ -12,6 +12,8 @@ MINISTRY OF HOME AFFAIRS
 Digital
 Police
 Service
+Feedback
+Contact
 About Us
 Crime and Criminal Tracking Network & Systems (CCTNS)
 The Crime and Criminal Tracking Network & Systems (CCTNS) project was launched in 2009 as a plan scheme. It is an ambitious project, which aims at putting in place a comprehensive and integrated system for enhancing efficiency and effectiveness of policing at the police station level throughout the country. As on 1st July, 2021, CCTNS application was deployed in 16,276 (100%) and connectivity has been provided in 15735 (97%) out of 16,276 Police Stations (PSs) across the country. During the period from 30.06.2019 to 31.06.2021, CCTNS generated FIR forms (IIF-1) submitted in courts has shown an increase by 15% i.e. from 70 % to 85%. The number of Police stations with the ability to search on National Database has increased by 762 i.e. from 14,112 to 14,874 PSs. CCTNS National Database has grown to about 28 Crores records. Digital Police Portal has been converted into master police portal to provide linkages with all citizen portals of States/UTs for ease of accessibility. BhartNet connectivity has started rolling out in 127 locations which are difficult and technically non-feasible sites in remote areas of the country after lot of efforts done by NCRB with DOT and USOF. Due to continuous follow-up, implementation of CCTNS also progressed well in Bihar State covering 894 PSs. An Agreement between NCRB and C-DAC was signed for Enhancement and Maintenance of CAS (State) 5.0 Application under CCTNS. CAS (Centre) Application went Go-Live on 25.02.2021.
@@ -60,3 +62,33 @@ Proclaimed Offenders Information
 service was launched on 21st August 2020.
 Locate nearest Police Station Mobile App
 service was launched on 3rd February 2021. These services promote the ‘Ease of Living’.
+QUICK LINKS
+Ministry of Home Affairs (MHA)
+National Crime Records Bureau (NCRB)
+Central Bureau of Investigation (CBI)
+National Investigation Agency (NIA)
+E-Courts
+MeitY
+Central Police Organizations
+Other Links
+Vahan Samanvay
+A Video on Digital Police Portal
+REACH US
+Ministry of Home Affairs, North Block
+Central Secretariat
+New Delhi - 110001
+Police Modernisation Division, MHA
+Women Safety Division, MHA,North Block,
+New Delhi –Pin code: 110011
+Subscribe
+National Crime Records Bureau National Highway-8,
+Near SSB, Mahipalpur - 110037
+Email: dct[at]ncrb[dot]nic[dot]in
+Privacy Policy
+Copyright Policy
+Hyperlink Policy
+Accessibility Statement
+Terms and Conditions
+Sitemap
+© Content Owned by National Crime Records Bureau(NCRB), Government of India Site Maintained by National Informatics Centre
+Visitors Count 35540495
