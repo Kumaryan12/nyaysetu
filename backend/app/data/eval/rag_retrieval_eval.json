@@ -123,4 +123,48 @@
     "expected_domains": ["Domestic Violence / Safety", "Legal Aid"],
     "expected_sources": ["NALSA Assistance for Women", "NALSA Legal Aid", "NALSA FAQs"]
   }
+  ,
+{
+  "query": "My employer has not paid my salary for three months",
+  "expected_domains": ["Labour Dispute"],
+  "expected_sources": [
+    "Payment of Wages Act, 1936",
+    "Code on Wages, 2019",
+    "Labour Unpaid Wages Basic Information",
+    "Chief Labour Commissioner Central",
+    "e-Shram Grievance"
+  ]
+},
+{
+  "query": "Company is holding my internship stipend",
+  "expected_domains": ["Labour Dispute"],
+  "expected_sources": [
+    "Code on Wages, 2019",
+    "Payment of Wages Act, 1936",
+    "Labour Unpaid Wages Basic Information",
+    "e-Shram Grievance"
+  ]
+},
+{
+  "query": "I worked as delivery boy but weekly payment was not received",
+  "expected_domains": ["Labour Dispute"],
+  "expected_sources": [
+    "Payment of Wages Act, 1936",
+    "Code on Wages, 2019",
+    "Labour Unpaid Wages Basic Information",
+    "e-Shram Grievance"
+  ]
+},
+{
+  "query": "Where can I complain about unpaid wages",
+  "expected_domains": ["Labour Dispute"],
+  "expected_sources": [
+    "e-Shram Grievance",
+    "Chief Labour Commissioner Central",
+    "Payment of Wages Act, 1936",
+    "Code on Wages, 2019",
+    "Labour Unpaid Wages Basic Information"
+  ]
+}
 ]
+

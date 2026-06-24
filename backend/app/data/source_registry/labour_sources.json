@@ -1,0 +1,76 @@
+[
+  {
+    "id": "samadhan_portal",
+    "title": "SAMADHAN Portal",
+    "url": "https://samadhan.labour.gov.in/",
+    "domain": "Labour Dispute",
+    "publisher": "Ministry of Labour and Employment, Government of India",
+    "jurisdiction": "India",
+    "source_type": "official_webpage"
+  },
+  {
+    "id": "samadhan_faqs",
+    "title": "SAMADHAN Portal FAQs",
+    "url": "https://samadhan.labour.gov.in/faqs",
+    "domain": "Labour Dispute",
+    "publisher": "Ministry of Labour and Employment, Government of India",
+    "jurisdiction": "India",
+    "source_type": "official_webpage"
+  },
+  {
+    "id": "samadhan_contact",
+    "title": "SAMADHAN Portal Contact",
+    "url": "https://samadhan.labour.gov.in/contacts/",
+    "domain": "Labour Dispute",
+    "publisher": "Ministry of Labour and Employment, Government of India",
+    "jurisdiction": "India",
+    "source_type": "official_webpage"
+  },
+  {
+    "id": "samadhan_about",
+    "title": "SAMADHAN About",
+    "url": "https://samadhan.labour.gov.in/about-samadhan",
+    "domain": "Labour Dispute",
+    "publisher": "Ministry of Labour and Employment, Government of India",
+    "jurisdiction": "India",
+    "source_type": "official_webpage"
+  },
+  {
+    "id": "chief_labour_commissioner",
+    "title": "Chief Labour Commissioner Central",
+    "url": "https://clc.gov.in/clc/",
+    "domain": "Labour Dispute",
+    "publisher": "Chief Labour Commissioner Central, Ministry of Labour and Employment",
+    "jurisdiction": "India",
+    "source_type": "official_webpage"
+  },
+  {
+    "id": "eshram_grievance",
+    "title": "e-Shram Grievance",
+    "url": "https://eshram.gov.in/grievance",
+    "domain": "Labour Dispute",
+    "publisher": "Ministry of Labour and Employment, Government of India",
+    "jurisdiction": "India",
+    "source_type": "official_webpage"
+  },
+  {
+  "id": "code_on_wages_2019",
+  "title": "Code on Wages, 2019",
+  "url": "https://www.indiacode.nic.in/bitstream/123456789/15793/1/aA2019-29.pdf",
+  "local_path": "app/data/manual_pdfs/code_on_wages_2019.pdf",
+  "domain": "Labour Dispute",
+  "publisher": "India Code / Ministry of Law and Justice",
+  "jurisdiction": "India",
+  "source_type": "official_pdf"
+},
+{
+  "id": "payment_of_wages_act_1936",
+  "title": "Payment of Wages Act, 1936",
+  "url": "https://www.indiacode.nic.in/bitstream/123456789/20359/1/payment_of_wages_act_1936.pdf",
+  "local_path": "app/data/manual_pdfs/payment_of_wages_act_1936.pdf",
+  "domain": "Labour Dispute",
+  "publisher": "India Code / Ministry of Law and Justice",
+  "jurisdiction": "India",
+  "source_type": "official_pdf"
+}
+]

@@ -36,3 +36,5 @@ backend/ml/*.csv
 backend/ml/*.json
 ml/saved_models
 ml/datasets
+backend/app/data/tmp_pdfs/
+backend/app/data/manual_pdfs/

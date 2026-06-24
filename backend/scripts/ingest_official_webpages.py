@@ -1,3 +1,4 @@
+import argparse
 import json
 import re
 import sys
@@ -12,8 +13,25 @@ from bs4 import BeautifulSoup
 BACKEND_ROOT = Path(__file__).resolve().parents[1]
 sys.path.append(str(BACKEND_ROOT))
 
-REGISTRY_PATH = BACKEND_ROOT / "app" / "data" / "source_registry" / "official_sources.json"
+SOURCE_REGISTRY_DIR = BACKEND_ROOT / "app" / "data" / "source_registry"
 OUTPUT_DIR = BACKEND_ROOT / "app" / "data" / "official_docs_raw"
+
+
+def parse_args():
+    parser = argparse.ArgumentParser(
+        description="Ingest official webpages into raw NyayaSetu document files."
+    )
+
+    parser.add_argument(
+        "--registry",
+        default="official_sources.json",
+        help=(
+            "Registry JSON file inside app/data/source_registry/. "
+            "Example: labour_sources.json"
+        ),
+    )
+
+    return parser.parse_args()
 
 
 def clean_text(text: str) -> str:
@@ -21,6 +39,7 @@ def clean_text(text: str) -> str:
     text = re.sub(r"[ \t]+", " ", text)
     text = re.sub(r"\n{3,}", "\n\n", text)
     return text.strip()
+
 
 def trim_leading_navigation_noise(lines: List[str]) -> List[str]:
     """
@@ -37,13 +56,23 @@ def trim_leading_navigation_noise(lines: List[str]) -> List[str]:
         "services for citizen",
         "your grievances, our redressal",
         "centralised public grievance",
+        "labour",
+        "grievance",
+        "wages",
+        "samadhan",
+        "chief labour commissioner",
+        "ministry of labour",
+        "consumer helpline",
+        "file complaint",
+        "cyber crime",
+        "women",
+        "domestic violence",
     ]
 
     for index, line in enumerate(lines):
         lower = line.lower()
 
         if any(marker in lower for marker in content_markers):
-            # Keep a little context before marker.
             start = max(index - 2, 0)
             return lines[start:]
 
@@ -67,49 +96,49 @@ def extract_text_from_html(html: str) -> str:
 
     lines = []
     seen = set()
-    BOILERPLATE_EXACT = {
-    "accessibility tools",
-    "color contrast",
-    "high contrast",
-    "normal contrast",
-    "highlight links",
-    "invert",
-    "saturation",
-    "text size",
-    "font size increase",
-    "font size decrease",
-    "normal font",
-    "text spacing",
-    "line height",
-    "others",
-    "hide images",
-    "big cursor",
-    "menu toggle",
-    "more",
-    "home",
-    "about",
-    "contact us",
-    "skip to main content",
-    "screen reader access",
-    "screen reader",
-    "official login",
-    "consumer login",
-    "previous",
-    "next",
-    "view all stories",
-    "click here",
-    "sign in",
-    "download",
-    "site map",
+
+    boilerplate_exact = {
+        "accessibility tools",
+        "color contrast",
+        "high contrast",
+        "normal contrast",
+        "highlight links",
+        "invert",
+        "saturation",
+        "text size",
+        "font size increase",
+        "font size decrease",
+        "normal font",
+        "text spacing",
+        "line height",
+        "others",
+        "hide images",
+        "big cursor",
+        "menu toggle",
+        "more",
+        "home",
+        "about",
+        "contact us",
+        "skip to main content",
+        "screen reader access",
+        "screen reader",
+        "official login",
+        "consumer login",
+        "previous",
+        "next",
+        "view all stories",
+        "click here",
+        "sign in",
+        "download",
+        "site map",
     }
 
-    BOILERPLATE_CONTAINS = [
+    boilerplate_contains = [
         "your browser does not support",
         "a -",
         "a +",
         "---select state---",
     ]
-
 
     for line in raw_text.splitlines():
         line = clean_text(line)
@@ -122,22 +151,20 @@ def extract_text_from_html(html: str) -> str:
 
         line_lower = line.lower().strip()
 
-        if line_lower in BOILERPLATE_EXACT:
+        if line_lower in boilerplate_exact:
             continue
 
-        if any(fragment in line_lower for fragment in BOILERPLATE_CONTAINS):
+        if any(fragment in line_lower for fragment in boilerplate_contains):
             continue
 
-        # Remove repeated nav/footer fragments.
         if line_lower in seen:
             continue
 
         seen.add(line_lower)
         lines.append(line)
 
-    
-
     lines = trim_leading_navigation_noise(lines)
+
     return clean_text("\n".join(lines))
 
 
@@ -147,7 +174,7 @@ def safe_filename(source_id: str) -> str:
 
 def fetch_source(source: Dict[str, str]) -> str:
     headers = {
-        "User-Agent": "NyayaSetuResearchBot/0.1 educational project"
+        "User-Agent": "NyayaSetuResearchBot/0.1 educational research project"
     }
 
     response = requests.get(
@@ -196,18 +223,47 @@ def save_source_text(source: Dict[str, str], text: str) -> None:
     )
 
 
-def load_registry() -> List[Dict[str, str]]:
-    with REGISTRY_PATH.open("r", encoding="utf-8") as f:
-        return json.load(f)
+def load_registry(registry_path: Path) -> List[Dict[str, str]]:
+    if not registry_path.exists():
+        raise FileNotFoundError(f"Registry file not found: {registry_path}")
+
+    with registry_path.open("r", encoding="utf-8") as f:
+        sources = json.load(f)
+
+    if not isinstance(sources, list):
+        raise ValueError("Registry file must contain a JSON list of sources.")
+
+    required_fields = {
+        "id",
+        "title",
+        "url",
+        "domain",
+        "publisher",
+        "jurisdiction",
+        "source_type",
+    }
+
+    for index, source in enumerate(sources):
+        missing = required_fields - set(source.keys())
+
+        if missing:
+            raise ValueError(
+                f"Source at index {index} is missing fields: {sorted(missing)}"
+            )
+
+    return sources
 
 
 def main() -> None:
+    args = parse_args()
+    registry_path = SOURCE_REGISTRY_DIR / args.registry
+
     print("NyayaSetu official webpage ingestion")
     print("------------------------------------")
-    print("Registry:", REGISTRY_PATH)
+    print("Registry:", registry_path)
     print("Output:", OUTPUT_DIR)
 
-    sources = load_registry()
+    sources = load_registry(registry_path)
 
     success = 0
     failed = 0

@@ -394,6 +394,54 @@ def clean_digital_police(source_id: str, lines: List[str]) -> List[str]:
     return generic_clean_body(lines)
 
 
+def clean_labour(source_id: str, lines: List[str]) -> List[str]:
+    if source_id == "chief_labour_commissioner":
+        lines = keep_from_marker(
+            lines,
+            markers=[
+                "the organization of the chief labour commissioner",
+                "workers grievances & claim",
+                "lodge a grievance",
+                "public grievance",
+            ],
+        )
+
+        lines = stop_after_marker(
+            lines,
+            stop_markers=[
+                "what's new",
+                "annual general transfer",
+                "importants links",
+                "footer utility",
+                "disclaimer",
+                "copyright",
+            ],
+        )
+
+    elif source_id == "samadhan_portal":
+        lines = keep_from_marker(
+            lines,
+            markers=[
+                "samadhan",
+                "grievance",
+                "labour",
+                "workers",
+            ],
+        )
+
+    elif source_id == "ministry_labour_home":
+        lines = keep_from_marker(
+            lines,
+            markers=[
+                "ministry of labour",
+                "labour",
+                "employment",
+            ],
+        )
+
+    return generic_clean_body(lines)
+
+
 def clean_cpgrams(source_id: str, lines: List[str]) -> List[str]:
     lines = keep_from_marker(
         lines,
@@ -433,8 +481,55 @@ def choose_cleaner(source_id: str):
 
     if source_id.startswith("cpgrams"):
         return clean_cpgrams
+    
+    if source_id in {
+        "code_on_wages_2019",
+        "payment_of_wages_act_1936",
+    }:
+        return clean_labour_pdf
+    
+    if source_id in {
+        "samadhan_portal",
+        "chief_labour_commissioner",
+        "ministry_labour_home",
+    }:
+        return clean_labour
 
     return clean_default
+
+def clean_labour_pdf(source_id: str, lines: List[str]) -> List[str]:
+    """
+    Cleans labour law PDF text extracted from India Code.
+    Keeps useful sections and removes excessive arrangement/index pages where possible.
+    """
+
+    if source_id == "code_on_wages_2019":
+        lines = keep_from_marker(
+            lines,
+            markers=[
+                "the code on wages, 2019",
+                "chapter i",
+                "preliminary",
+                "definitions",
+            ],
+        )
+
+        # Keep the Act text, but remove excessive later schedules/rules if needed later.
+        return generic_clean_body(lines)
+
+    if source_id == "payment_of_wages_act_1936":
+        lines = keep_from_marker(
+            lines,
+            markers=[
+                "the payment of wages act, 1936",
+                "an act to regulate the payment of wages",
+                "short title, extent, commencement and application",
+            ],
+        )
+
+        return generic_clean_body(lines)
+
+    return generic_clean_body(lines)
 
 
 def clean_file(raw_path: Path) -> None:
