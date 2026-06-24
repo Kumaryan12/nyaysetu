@@ -644,14 +644,14 @@ Download issue classifier:
 ```bash
 mkdir -p ml/saved_models
 
-hf download YOUR_HF_USERNAME/nyayasetu-issue-classifier-xlm-r \
+hf download kumaryan12/nyayasetu-issue-classifier-xlm-r \
   --local-dir ml/saved_models/issue_classifier_xlmr
 ```
 
 Download urgency classifier:
 
 ```bash
-hf download YOUR_HF_USERNAME/nyayasetu-urgency-classifier-xlm-r \
+hf download kumaryan12/nyayasetu-urgency-classifier-xlm-r \
   --local-dir ml/saved_models/urgency_classifier_xlmr
 ```
 
