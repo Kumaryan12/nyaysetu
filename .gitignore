@@ -36,5 +36,7 @@ backend/ml/*.csv
 backend/ml/*.json
 ml/saved_models
 ml/datasets
+backend/app/data/manual_docs/labour_unpaid_wages_basic.txt
 backend/app/data/tmp_pdfs/
 backend/app/data/manual_pdfs/
+backend/app/data/manual_docs/labour_unpaid_wages_basic.metadata.json

@@ -26,6 +26,12 @@ class Settings(BaseSettings):
     # Embedding settings
     embedding_model_name: str = "intfloat/multilingual-e5-base"
 
+    # Optional Hugging Face model IDs for production classifier loading.
+    # If unset, the backend falls back to local ml/saved_models folders.
+    issue_classifier_model_id: Optional[str] = None
+    urgency_classifier_model_id: Optional[str] = None
+    hf_token: Optional[str] = None
+
     # RAG settings
     rag_top_k: int = 5
     rag_min_score: float = 0.20

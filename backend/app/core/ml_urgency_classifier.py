@@ -5,6 +5,8 @@ import torch
 from pydantic import BaseModel
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
 
+from app.config import settings
+
 
 class MLUrgencyResult(BaseModel):
     urgency: str
@@ -18,8 +20,8 @@ class FineTunedUrgencyClassifier:
     """
     Loads and runs the fine-tuned XLM-R urgency classifier.
 
-    Expected model path:
-    nyayasetu/ml/saved_models/urgency_classifier_xlmr
+    In production, set URGENCY_CLASSIFIER_MODEL_ID to a Hugging Face model ID.
+    Locally, it falls back to nyayasetu/ml/saved_models/urgency_classifier_xlmr.
     """
 
     def __init__(self):
@@ -33,15 +35,29 @@ class FineTunedUrgencyClassifier:
             / "urgency_classifier_xlmr"
         )
 
-        if not self.model_path.exists():
+        self.model_source = settings.urgency_classifier_model_id
+
+        if self.model_source is None and self.model_path.exists():
+            self.model_source = str(self.model_path)
+
+        if self.model_source is None:
             raise FileNotFoundError(
-                "Fine-tuned urgency classifier not found at: "
+                "Fine-tuned urgency classifier not found locally at "
                 + str(self.model_path)
+                + ". Set URGENCY_CLASSIFIER_MODEL_ID to load it from Hugging Face."
             )
 
-        self.tokenizer = AutoTokenizer.from_pretrained(str(self.model_path))
+        token_kwargs = {}
+        if settings.hf_token:
+            token_kwargs["token"] = settings.hf_token
+
+        self.tokenizer = AutoTokenizer.from_pretrained(
+            self.model_source,
+            **token_kwargs,
+        )
         self.model = AutoModelForSequenceClassification.from_pretrained(
-            str(self.model_path)
+            self.model_source,
+            **token_kwargs,
         )
 
         self.model.eval()
