@@ -1,28 +1,86 @@
 # NyayaSetu
 
-**NyayaSetu** is a source-grounded legal-aid and public-service grievance assistant designed for Indian citizens. It combines fine-tuned NLP classifiers, retrieval-augmented generation, official-source document retrieval, Groq-based answer generation, and safety guardrails.
+## TL;DR
 
-The goal is to help users understand where their issue belongs, how urgent it may be, what next steps they can take, and which official sources support the response.
+**NyayaSetu** is a full-stack, source-grounded legal-aid and public-service grievance assistant for Indian citizens.
 
-> NyayaSetu is not a lawyer and does not provide personal legal advice. It provides general legal/public-service information based on retrieved sources.
+It combines:
+
+- Fine-tuned **XLM-RoBERTa issue classification**
+- Fine-tuned **XLM-RoBERTa urgency classification**
+- Official-source **RAG retrieval**
+- Groq-based LLM answer generation
+- Safety/category correction rules
+- Answer guardrails
+- Source-backed responses
+- A Next.js frontend with an explainability/debug panel
+
+The project is designed as a serious ML-RAG system, not just an LLM chatbot wrapper.
+
+---
+
+## Project Overview
+
+Many citizens struggle to understand where to go when they face issues like unpaid wages, consumer fraud, delayed public services, police complaints, domestic violence, or inability to afford legal help.
+
+NyayaSetu helps users by:
+
+1. Understanding the type of issue they are facing.
+2. Detecting urgency and safety risk.
+3. Retrieving relevant official-source documents.
+4. Generating a simple, grounded answer.
+5. Suggesting next steps and required documents.
+6. Showing the sources used.
+7. Providing an explainability panel for development and demos.
+
+> NyayaSetu does **not** replace lawyers, courts, police, government departments, or legal authorities. It provides general legal/public-service information from available official sources.
 
 ---
 
 ## Key Features
 
-- Fine-tuned **XLM-RoBERTa issue classifier**
-- Fine-tuned **XLM-RoBERTa urgency classifier**
+- Fine-tuned multilingual issue classifier
+- Fine-tuned urgency classifier
 - Rule-based fallback classifiers
-- Category correction rules for known high-risk/boundary cases
-- Urgency safety correction rules
-- RAG pipeline over official-source legal/public-service documents
-- ChromaDB vector store
-- Multilingual embedding model for future Indian-language support
+- Category correction rules for known boundary cases
+- Safety escalation rules for high-risk situations
+- RAG pipeline over official government/legal-aid sources
+- Raw-to-clean-to-RAG corpus pipeline
+- ChromaDB vector search
 - Groq LLM answer generation
-- Answer guardrails to reduce hallucination and overconfident legal claims
-- Source-backed responses
-- Next.js frontend chat UI
-- Developer/debug panel showing classifier decisions, correction rules, and source retrieval scores
+- Guardrails against unsupported legal claims
+- Source-backed structured responses
+- Developer debug panel
+- Retrieval evaluation pipeline
+- RAG document audit pipeline
+- Hugging Face model hosting workflow
+
+---
+
+## Demo Capabilities
+
+Example user query:
+
+```text
+My employer has not paid my salary for three months. What should I do?
+```
+
+NyayaSetu returns:
+
+- Issue category: `Labour Dispute`
+- Urgency: `Medium`
+- Simple explanation
+- Suggested next steps
+- Documents/details needed
+- Relevant official sources
+
+Example safety query:
+
+```text
+Loan app is sending my photos to contacts.
+```
+
+NyayaSetu can identify this as a high-risk situation and escalate urgency using safety correction rules.
 
 ---
 
@@ -41,7 +99,7 @@ Fine-tuned Urgency Classifier
    ↓
 Correction Rules
    ↓
-RAG Retrieval from Official-Source Documents
+RAG Retrieval from Official Sources
    ↓
 Groq LLM Answer Generation
    ↓
@@ -50,12 +108,6 @@ Answer Guardrails
 Structured Response + Sources
    ↓
 Frontend Display + Debug Panel
-```
-
-Detailed architecture is available in:
-
-```text
-docs/architecture.md
 ```
 
 ---
@@ -67,16 +119,16 @@ docs/architecture.md
 - Python
 - FastAPI
 - Pydantic
-- Sentence Transformers
 - ChromaDB
+- Sentence Transformers
 - Groq API
-- PyPDF
+- PyTorch
+- Hugging Face Transformers
 
 ### Machine Learning
 
 - XLM-RoBERTa
-- Hugging Face Transformers
-- PyTorch
+- Hugging Face Trainer
 - Scikit-learn
 - Pandas
 - Datasets
@@ -98,9 +150,17 @@ nyayasetu/
 │   ├── app/
 │   │   ├── api/
 │   │   ├── core/
-│   │   ├── services/
 │   │   ├── models/
+│   │   ├── services/
 │   │   └── data/
+│   │       ├── source_registry/
+│   │       ├── official_docs_raw/
+│   │       ├── official_docs_clean/
+│   │       ├── manual_docs/
+│   │       ├── rag_docs/
+│   │       ├── processed/
+│   │       ├── eval/
+│   │       └── vector_db/
 │   │
 │   ├── scripts/
 │   └── requirements.txt
@@ -115,19 +175,13 @@ nyayasetu/
 │   ├── training/
 │   └── saved_models/
 │
-├── docs/
-│   ├── architecture.md
-│   ├── model_evaluation.md
-│   ├── setup.md
-│   └── resume_points.md
-│
-├── .gitignore
-└── README.md
+├── README.md
+└── .gitignore
 ```
 
 ---
 
-## Main Backend Routes
+## Backend Routes
 
 ```text
 GET  /health
@@ -136,11 +190,11 @@ POST /chat
 POST /chat/debug
 ```
 
-### `/chat`
+### `POST /chat`
 
 Main user-facing endpoint.
 
-Input:
+Example request:
 
 ```json
 {
@@ -148,7 +202,7 @@ Input:
 }
 ```
 
-Output includes:
+Example response fields:
 
 ```json
 {
@@ -161,27 +215,29 @@ Output includes:
 }
 ```
 
-### `/chat/debug`
+### `POST /chat/debug`
 
-Developer/debug endpoint.
+Developer/demo endpoint.
 
 Shows:
 
 - ML issue prediction
 - Rule-based issue prediction
-- Category correction rules applied
+- Category correction result
 - ML urgency prediction
 - Rule-based urgency prediction
-- Urgency correction rules applied
+- Urgency correction result
 - Retrieved source scores
 
-This endpoint is useful for development and demos, but should be hidden or protected in production.
+This endpoint is useful for demos and debugging, but should be hidden or protected in production.
 
 ---
 
-## Issue Categories
+## Issue Classification
 
-The issue classifier predicts one of the following:
+NyayaSetu uses a fine-tuned XLM-RoBERTa classifier for issue categorization.
+
+### Labels
 
 ```text
 Labour Dispute
@@ -197,11 +253,22 @@ Public Grievance
 Unknown
 ```
 
+The classifier is designed for Indian grievance-style queries, including:
+
+- English
+- Hinglish
+- Roman Hindi
+- Broken English
+- Speech-like short queries
+- Informal complaint phrasing
+
 ---
 
-## Urgency Labels
+## Urgency Classification
 
-The urgency classifier predicts:
+NyayaSetu also uses a fine-tuned XLM-RoBERTa urgency classifier.
+
+### Labels
 
 ```text
 Low
@@ -210,102 +277,267 @@ High
 Unknown
 ```
 
-Examples:
+### Meaning
 
 ```text
 High:
-Immediate danger, violence, missing person, private photo threats, medical emergency.
+Immediate danger, violence, missing person, medical emergency, private-image threats, forced confinement, stalking.
 
 Medium:
-Unpaid salary, refund issue, delayed passport verification, pension delay, eviction notice.
+Important but not immediately life-threatening issues such as unpaid salary, refund denial, delayed documents, pension delay, eviction notice.
 
 Low:
-Information-seeking queries such as "how to apply" or "what documents are needed".
+Information-seeking queries such as how to apply, where to complain, or what documents are needed.
 
 Unknown:
-Non-legal or unrelated queries.
+Unrelated or non-legal queries.
 ```
 
 ---
 
-## Model Evaluation
+## Classifier Evaluation
 
-The issue classifier was evaluated on unseen hard Indian grievance-style queries.
+### Issue Classifier
 
-Current representative result:
+Evaluated on unseen hard Indian grievance-style queries.
 
 ```text
-Issue Classifier:
-Accuracy: 0.90
-Macro F1: 0.89
+Accuracy:    0.90
+Macro F1:    0.89
 Weighted F1: 0.89
 ```
 
-The urgency classifier was evaluated on unseen urgency examples.
+### Urgency Classifier
 
-Current representative result:
+Evaluated on unseen urgency examples.
 
 ```text
-Urgency Classifier:
-Accuracy: 0.90
-Macro F1: 0.90
+Accuracy:    0.90
+Macro F1:    0.90
 Weighted F1: 0.90
 ```
 
-These results are based on curated and synthetic datasets. They should not be treated as proof of production-level reliability. More real-world data and human evaluation are required before public deployment.
+These results are from curated/synthetic evaluation sets and should not be treated as production-level reliability. More real-world data and human evaluation are needed before public deployment.
 
 ---
 
-## RAG Knowledge Base
+## RAG Corpus Pipeline
 
-Official-source documents are stored in:
-
-```text
-backend/app/data/official_docs/
-```
-
-Each document can have a metadata file:
+NyayaSetu uses a raw-to-clean-to-final corpus pipeline for RAG.
 
 ```text
-document_name.metadata.json
+official_docs_raw/
+   ↓
+official_docs_clean/
+   ↓
+manual_docs/
+   ↓
+rag_docs/
+   ↓
+processed/chunks.jsonl
+   ↓
+vector_db/
 ```
 
-Example metadata:
+### Folder Roles
 
-```json
-{
-  "title": "National Consumer Helpline Basic Information",
-  "source_type": "official_website_summary",
-  "url": "https://consumerhelpline.gov.in/",
-  "jurisdiction": "India",
-  "publisher": "Department of Consumer Affairs, Government of India",
-  "last_checked": "2026-06-22"
-}
-```
+| Folder | Purpose |
+|---|---|
+| `official_docs_raw/` | Untouched scraped official webpage text |
+| `official_docs_clean/` | Cleaned official webpage content |
+| `manual_docs/` | Curated official-source summaries |
+| `rag_docs/` | Final RAG-ready corpus |
+| `processed/` | Generated chunks |
+| `vector_db/` | ChromaDB index |
 
-The RAG pipeline:
+---
+
+## RAG Document Quality
+
+The RAG corpus is built from official or official-source documents.
+
+Current included sectors:
+
+- Legal Aid
+- Consumer Complaint
+- Police Complaint
+- Public Grievance
+- Domestic Violence / Safety
+
+The cleaning pipeline removes:
+
+- Navigation menus
+- Footer text
+- Accessibility boilerplate
+- Repeated lines
+- Broken tables
+- Irrelevant webpage UI text
+
+The audit script checks:
+
+- Word count
+- Metadata completeness
+- Missing title/source/domain/publisher fields
+- Noisy webpage patterns
+- Broken table patterns
+- Repeated lines
+
+---
+
+## RAG Retrieval Evaluation
+
+Retrieval is evaluated using a curated query set across multiple domains.
+
+Metrics used:
+
+| Metric | Meaning |
+|---|---|
+| Domain Recall@1 | Whether the top result belongs to the expected domain |
+| Domain Recall@3 | Whether any top-3 result belongs to the expected domain |
+| Source Recall@5 | Whether the expected official source appears in the top 5 |
+| MRR | Mean Reciprocal Rank of the first expected source |
+
+### Current Retrieval Results
+
+On a curated 24-query retrieval evaluation set:
 
 ```text
-Documents
-   ↓
-Load and clean text
-   ↓
-Chunk documents
-   ↓
-Generate embeddings
-   ↓
-Store in ChromaDB
-   ↓
-Retrieve relevant chunks
-   ↓
-Generate answer with Groq
+Domain Recall@1: 1.000
+Domain Recall@3: 1.000
+Source Recall@5: 1.000
+MRR:             0.979
+```
+
+These results show that the current RAG database retrieves the correct official source for the tested queries. The evaluation set is still limited and should be expanded before production use.
+
+---
+
+## Example Retrieval Results
+
+### Query
+
+```text
+How can I get free legal aid?
+```
+
+Top retrieved sources:
+
+```text
+1. NALSA FAQs — Legal Aid
+2. NALSA FAQs — Legal Aid
+3. NALSA FAQs — Legal Aid
+```
+
+### Query
+
+```text
+My online order was defective and seller is not refunding
+```
+
+Top retrieved sources:
+
+```text
+1. National Consumer Helpline Contact — Consumer Complaint
+2. National Consumer Helpline About — Consumer Complaint
+3. National Consumer Helpline — Consumer Complaint
+```
+
+### Query
+
+```text
+How can I get FIR copy?
+```
+
+Top retrieved sources:
+
+```text
+1. Digital Police Citizen Services — Police Complaint
+2. Digital Police CCTNS About — Police Complaint
+3. Digital Police CCTNS About — Police Complaint
+```
+
+### Query
+
+```text
+Can I appeal if my CPGRAMS grievance is closed?
+```
+
+Top retrieved sources:
+
+```text
+1. CPGRAMS Public Grievance Portal — Public Grievance
+2. CPGRAMS Lodge Grievance — Public Grievance
+3. NALSA FAQs — Legal Aid
 ```
 
 ---
 
-## Setup Instructions
+## Groq LLM Usage
 
-### 1. Clone the repository
+Groq is used for answer generation only.
+
+The LLM receives:
+
+- User query
+- Retrieved source snippets
+- Strict prompt instructions
+- JSON output format requirements
+
+The LLM is instructed to:
+
+- Use only retrieved sources
+- Avoid pretending to be a lawyer
+- Avoid inventing legal sections, deadlines, phone numbers, or procedures
+- Say when sources are insufficient
+- Return a structured response
+
+---
+
+## Guardrails
+
+NyayaSetu applies answer guardrails after LLM generation.
+
+Guardrails reduce the risk of:
+
+- Unsupported legal claims
+- Overconfident advice
+- Hallucinated deadlines
+- Hallucinated legal sections
+- Unsupported emergency guidance
+
+If sources are weak or missing, the system responds with a fallback message instead of inventing an answer.
+
+---
+
+## Explainability / Debug Panel
+
+The frontend includes a developer/debug panel showing:
+
+- ML issue classifier output
+- ML urgency classifier output
+- Rule-based predictions
+- Correction rules applied
+- Final category
+- Final urgency
+- Retrieved source scores
+
+This makes the system easier to debug and demonstrate.
+
+Example:
+
+```text
+Input: loan app is sending my photos to contacts
+
+ML urgency prediction: Medium
+Urgency correction rule: high_risk_safety_pattern
+Final urgency: High
+```
+
+---
+
+## Setup
+
+### 1. Clone Repository
 
 ```bash
 git clone https://github.com/YOUR_USERNAME/nyayasetu.git
@@ -314,7 +546,7 @@ cd nyayasetu
 
 ---
 
-### 2. Backend setup
+### 2. Backend Setup
 
 ```bash
 cd backend
@@ -323,7 +555,13 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-Create a `.env` file inside `backend/`:
+Create:
+
+```text
+backend/.env
+```
+
+Example:
 
 ```env
 APP_NAME=NyayaSetu
@@ -349,7 +587,7 @@ Run backend:
 uvicorn app.main:app --reload
 ```
 
-Backend runs at:
+Backend:
 
 ```text
 http://127.0.0.1:8000
@@ -363,18 +601,7 @@ http://127.0.0.1:8000/docs
 
 ---
 
-### 3. Prepare RAG index
-
-From inside `backend/`:
-
-```bash
-python scripts/prepare_chunks.py
-python scripts/build_vector_index.py
-```
-
----
-
-### 4. Frontend setup
+### 3. Frontend Setup
 
 Open a new terminal:
 
@@ -384,7 +611,7 @@ npm install
 npm run dev
 ```
 
-Frontend runs at:
+Frontend:
 
 ```text
 http://localhost:3000
@@ -392,11 +619,95 @@ http://localhost:3000
 
 ---
 
+## Fine-Tuned Model Weights
+
+The fine-tuned model weights are **not stored in this GitHub repository** because they are large.
+
+They should be downloaded separately from Hugging Face.
+
+### Download Models
+
+Install Hugging Face Hub CLI:
+
+```bash
+pip install -U huggingface_hub
+```
+
+Login:
+
+```bash
+hf auth login
+```
+
+Download issue classifier:
+
+```bash
+mkdir -p ml/saved_models
+
+hf download YOUR_HF_USERNAME/nyayasetu-issue-classifier-xlm-r \
+  --local-dir ml/saved_models/issue_classifier_xlmr
+```
+
+Download urgency classifier:
+
+```bash
+hf download YOUR_HF_USERNAME/nyayasetu-urgency-classifier-xlm-r \
+  --local-dir ml/saved_models/urgency_classifier_xlmr
+```
+
+Expected local folders:
+
+```text
+ml/saved_models/issue_classifier_xlmr/
+ml/saved_models/urgency_classifier_xlmr/
+```
+
+Each should contain:
+
+```text
+config.json
+model.safetensors
+tokenizer.json
+tokenizer_config.json
+sentencepiece.bpe.model
+special_tokens_map.json
+```
+
+If these folders are missing, the backend will fall back to rule-based classification.
+
+---
+
+## Build RAG Database
+
+From inside `backend/`:
+
+```bash
+python scripts/ingest_official_webpages.py
+python scripts/build_clean_official_docs.py
+python scripts/build_rag_corpus.py
+python scripts/audit_rag_docs.py
+python scripts/prepare_chunks.py
+python scripts/build_vector_index.py
+python scripts/evaluate_retrieval.py
+```
+
+Pipeline summary:
+
+```text
+ingest_official_webpages.py      -> official_docs_raw/
+build_clean_official_docs.py     -> official_docs_clean/
+build_rag_corpus.py              -> rag_docs/
+audit_rag_docs.py                -> quality audit
+prepare_chunks.py                -> processed/chunks.jsonl
+build_vector_index.py            -> ChromaDB vector index
+evaluate_retrieval.py            -> retrieval metrics
+```
+
+---
+
 ## ML Training
 
-### Issue classifier
-
-From project root:
+### Issue Classifier
 
 ```bash
 python ml/training/generate_issue_dataset.py
@@ -410,11 +721,7 @@ Evaluate:
 python ml/training/evaluate_issue_file.py --csv ml/datasets/issue_classification_unseen_hard_v3.csv
 ```
 
----
-
-### Urgency classifier
-
-From project root:
+### Urgency Classifier
 
 ```bash
 python ml/training/generate_urgency_dataset.py
@@ -430,52 +737,59 @@ python ml/training/evaluate_urgency_file.py --csv ml/datasets/urgency_unseen_har
 
 ---
 
-## Important Git Notes
+## What Is Not Committed
 
-Do not commit:
+The following files/folders are intentionally excluded:
 
 ```text
 backend/.env
+backend/.venv/
 frontend/node_modules/
 frontend/.next/
-ml/saved_models/
 backend/app/data/vector_db/
 backend/app/data/processed/chunks.jsonl
+backend/app/data/eval/rag_audit_report.json
+backend/app/data/eval/retrieval_eval_report.json
+ml/saved_models/
+ml/**/checkpoint-*
 ```
 
-Model weights and vector DB files can be regenerated locally.
+These are generated locally or downloaded separately.
 
 ---
 
 ## Current Limitations
 
-- The official document knowledge base is still small.
-- Some current documents are official-source summaries, not full raw official PDFs/pages.
-- Classifiers are trained mainly on synthetic and curated data.
-- Some real user issues are multi-label, but the current classifier is single-label.
+- The RAG corpus is still small.
+- The retrieval evaluation set is curated and limited.
+- Some domains have fewer sources than others.
+- Some official websites are dynamic and difficult to scrape cleanly.
+- The classifiers are trained mainly on curated/synthetic examples.
+- Current classification is single-label.
+- State-specific legal/public-service handling is limited.
 - Speech input is not yet integrated.
-- Multilingual response generation is not yet complete.
-- The debug panel is for development and demos, not public users.
-- The system does not replace lawyers or official authorities.
+- Hindi/Hinglish response generation is not fully implemented.
+- The system is not suitable for unsupervised production legal advice.
 
 ---
 
-## Future Improvements
+## Future Work
 
-- Add full official PDFs and webpages.
-- Add state-specific legal/public-service documents.
-- Add multilingual speech-to-text.
-- Add Hindi/Hinglish response support.
+- Add more official sources sector by sector.
+- Expand retrieval evaluation to 100+ queries.
+- Add NCW, cybercrime, labour, healthcare, municipal, RERA, and state-specific sources.
+- Add section-aware and FAQ-aware chunking.
+- Add multilingual typed Hindi/Hinglish responses.
+- Add speech-to-text support.
 - Add complaint draft generation.
-- Add multi-label classification.
-- Add admin dashboard.
-- Add model calibration and confidence thresholds.
 - Add user feedback loop.
-- Add Docker-based deployment.
-- Add real-world human evaluation.
+- Add admin review for high-risk cases.
+- Add deployment with lightweight model-loading strategy.
+- Add model hosting via Hugging Face.
+- Add Docker setup.
 
 ---
 
-## Resume Summary
+## Disclaimer
 
-Built NyayaSetu, a source-grounded legal-aid and public-service grievance assistant for Indian citizens using fine-tuned XLM-RoBERTa issue and urgency classifiers, RAG over official-source documents, ChromaDB retrieval, Groq-based answer generation, correction rules, safety guardrails, and a Next.js explainability dashboard.
+NyayaSetu is an educational and research-oriented project. It does not provide legal advice and should not be used as a substitute for lawyers, courts, police, government departments, or official legal services authorities.
