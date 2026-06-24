@@ -21,6 +21,7 @@ REQUIRED_METADATA_FIELDS = [
 
 
 NOISE_PATTERNS = [
+    "login",
     "skip to main content",
     "screen reader",
     "accessibility tools",

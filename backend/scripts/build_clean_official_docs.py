@@ -324,6 +324,16 @@ def clean_nalsa(source_id: str, lines: List[str]) -> List[str]:
             ],
         )
 
+        lines = stop_after_marker(
+            lines,
+            stop_markers=[
+                "the income ceiling limit prescribed",
+                "s.no",
+                "states/union territories",
+                "income ceiling limit",
+            ],
+        )
+
     elif source_id == "nalsa_womens_assistance":
         lines = keep_from_marker(
             lines,

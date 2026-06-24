@@ -15,15 +15,78 @@
     "expected_sources": ["NALSA Legal Aid", "NALSA FAQs"]
   },
   {
+    "query": "Can a child apply for free legal aid?",
+    "expected_domains": ["Legal Aid"],
+    "expected_sources": ["NALSA Legal Aid", "NALSA FAQs"]
+  },
+  {
+    "query": "Can an industrial workman get free legal aid?",
+    "expected_domains": ["Legal Aid"],
+    "expected_sources": ["NALSA Legal Aid", "NALSA FAQs"]
+  },
+  {
+    "query": "Can I get free lawyer for appeal in High Court?",
+    "expected_domains": ["Legal Aid"],
+    "expected_sources": ["NALSA Legal Aid", "NALSA FAQs"]
+  },
+  {
+    "query": "Can I get legal aid if I already had a private lawyer?",
+    "expected_domains": ["Legal Aid"],
+    "expected_sources": ["NALSA FAQs"]
+  },
+  {
+    "query": "Can a prisoner get free legal aid?",
+    "expected_domains": ["Legal Aid"],
+    "expected_sources": ["NALSA FAQs", "NALSA Legal Aid"]
+  },
+  {
+    "query": "Where should I approach for legal aid?",
+    "expected_domains": ["Legal Aid"],
+    "expected_sources": ["NALSA Legal Aid", "NALSA FAQs"]
+  },
+
+  {
     "query": "My online order was defective and seller is not refunding",
+    "expected_domains": ["Consumer Complaint"],
+    "expected_sources": ["National Consumer Helpline", "National Consumer Helpline About", "National Consumer Helpline Contact"]
+  },
+  {
+    "query": "How can I file a consumer complaint online?",
     "expected_domains": ["Consumer Complaint"],
     "expected_sources": ["National Consumer Helpline", "National Consumer Helpline About"]
   },
   {
+    "query": "How can I track my consumer grievance?",
+    "expected_domains": ["Consumer Complaint"],
+    "expected_sources": ["National Consumer Helpline", "National Consumer Helpline Contact"]
+  },
+  {
+    "query": "Which platforms can I use for National Consumer Helpline?",
+    "expected_domains": ["Consumer Complaint"],
+    "expected_sources": ["National Consumer Helpline"]
+  },
+
+  {
     "query": "How can I get FIR copy?",
+    "expected_domains": ["Police Complaint"],
+    "expected_sources": ["Digital Police Citizen Services", "Digital Police CCTNS About"]
+  },
+  {
+    "query": "How can I file complaint to police station online?",
     "expected_domains": ["Police Complaint"],
     "expected_sources": ["Digital Police Citizen Services"]
   },
+  {
+    "query": "How can I check police complaint status?",
+    "expected_domains": ["Police Complaint"],
+    "expected_sources": ["Digital Police Citizen Services"]
+  },
+  {
+    "query": "How can I search missing person details?",
+    "expected_domains": ["Police Complaint"],
+    "expected_sources": ["Digital Police Citizen Services"]
+  },
+
   {
     "query": "Government department is not responding to my application",
     "expected_domains": ["Public Grievance"],
@@ -33,5 +96,31 @@
     "query": "Can I appeal if my CPGRAMS grievance is closed?",
     "expected_domains": ["Public Grievance"],
     "expected_sources": ["CPGRAMS Public Grievance Portal"]
+  },
+  {
+    "query": "Can I send CPGRAMS grievance by email?",
+    "expected_domains": ["Public Grievance"],
+    "expected_sources": ["CPGRAMS Public Grievance Portal"]
+  },
+  {
+    "query": "What issues are not taken up by CPGRAMS?",
+    "expected_domains": ["Public Grievance"],
+    "expected_sources": ["CPGRAMS Public Grievance Portal"]
+  },
+  {
+    "query": "How can I track public grievance status?",
+    "expected_domains": ["Public Grievance"],
+    "expected_sources": ["CPGRAMS Public Grievance Portal", "CPGRAMS Lodge Grievance"]
+  },
+
+  {
+    "query": "My husband is threatening me and I am scared",
+    "expected_domains": ["Domestic Violence / Safety"],
+    "expected_sources": ["NALSA Assistance for Women"]
+  },
+  {
+    "query": "Where can women get legal assistance?",
+    "expected_domains": ["Domestic Violence / Safety", "Legal Aid"],
+    "expected_sources": ["NALSA Assistance for Women", "NALSA Legal Aid", "NALSA FAQs"]
   }
 ]
