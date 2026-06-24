@@ -7,7 +7,7 @@ from typing import Dict, List, Tuple
 BACKEND_ROOT = Path(__file__).resolve().parents[1]
 
 RAW_DIR = BACKEND_ROOT / "app" / "data" / "official_docs_raw"
-CLEAN_DIR = BACKEND_ROOT / "app" / "data" / "official_docs"
+CLEAN_DIR = BACKEND_ROOT / "app" / "data" / "official_docs_clean"
 
 
 DROP_EXACT = {

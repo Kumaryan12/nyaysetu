@@ -1,0 +1,37 @@
+[
+  {
+    "query": "How can I get free legal aid?",
+    "expected_domains": ["Legal Aid"],
+    "expected_sources": ["NALSA Legal Aid", "NALSA FAQs"]
+  },
+  {
+    "query": "Who is eligible for free legal aid?",
+    "expected_domains": ["Legal Aid"],
+    "expected_sources": ["NALSA Legal Aid", "NALSA FAQs"]
+  },
+  {
+    "query": "Can women get free legal aid?",
+    "expected_domains": ["Legal Aid"],
+    "expected_sources": ["NALSA Legal Aid", "NALSA FAQs"]
+  },
+  {
+    "query": "My online order was defective and seller is not refunding",
+    "expected_domains": ["Consumer Complaint"],
+    "expected_sources": ["National Consumer Helpline", "National Consumer Helpline About"]
+  },
+  {
+    "query": "How can I get FIR copy?",
+    "expected_domains": ["Police Complaint"],
+    "expected_sources": ["Digital Police Citizen Services"]
+  },
+  {
+    "query": "Government department is not responding to my application",
+    "expected_domains": ["Public Grievance"],
+    "expected_sources": ["CPGRAMS Public Grievance Portal", "CPGRAMS Lodge Grievance"]
+  },
+  {
+    "query": "Can I appeal if my CPGRAMS grievance is closed?",
+    "expected_domains": ["Public Grievance"],
+    "expected_sources": ["CPGRAMS Public Grievance Portal"]
+  }
+]

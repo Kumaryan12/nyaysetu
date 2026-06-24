@@ -2,6 +2,9 @@ export type SourceSnippet = {
   title: string;
   source_type: string;
   url?: string | null;
+  domain?: string | null;
+  publisher?: string | null;
+  jurisdiction?: string | null;
   text: string;
   score?: number | null;
 };

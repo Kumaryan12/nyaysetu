@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 from app.config import settings
 from app.models.schemas import SourceSnippet
@@ -13,13 +13,14 @@ class RAGService:
     - take user query
     - retrieve relevant official chunks
     - filter weak results
-    - convert them into SourceSnippet objects
+    - preserve source metadata
+    - convert retrieved chunks into SourceSnippet objects
     """
 
     def __init__(self):
         self.vector_store = ChromaVectorStore()
 
-    def retrieve_sources(self, query: str, top_k: int = None) -> List[SourceSnippet]:
+    def retrieve_sources(self, query: str, top_k: Optional[int] = None) -> List[SourceSnippet]:
         results: List[VectorSearchResult] = self.vector_store.search(
             query=query,
             top_k=top_k or settings.rag_top_k,
@@ -31,15 +32,23 @@ class RAGService:
             if result.score is not None and result.score < settings.rag_min_score:
                 continue
 
-            title = result.metadata.get("title", "Unknown Source")
-            source_type = result.metadata.get("source_type", "official_document")
-            url = result.metadata.get("url", "")
+            metadata = result.metadata or {}
+
+            title = metadata.get("title", "Unknown Source")
+            source_type = metadata.get("source_type", "official_document")
+            url = metadata.get("url", "")
+            domain = metadata.get("domain")
+            publisher = metadata.get("publisher")
+            jurisdiction = metadata.get("jurisdiction")
 
             sources.append(
                 SourceSnippet(
                     title=title,
                     source_type=source_type,
                     url=url,
+                    domain=domain,
+                    publisher=publisher,
+                    jurisdiction=jurisdiction,
                     text=result.text,
                     score=result.score,
                 )
