@@ -166,5 +166,45 @@
     "Labour Unpaid Wages Basic Information"
   ]
 }
+
+,
+{
+  "query": "Loan app is sending my private photos to contacts",
+  "expected_domains": ["Police Complaint", "Domestic Violence / Safety"],
+  "expected_sources": [
+    "Cybercrime Reporting Basic Information",
+    "Cybercrime Social Media Abuse Reporting Information"
+  ]
+},
+{
+  "query": "My boyfriend is threatening to leak my photos online",
+  "expected_domains": ["Police Complaint", "Domestic Violence / Safety"],
+  "expected_sources": [
+    "Cybercrime Reporting Basic Information",
+    "Cybercrime Social Media Abuse Reporting Information"
+  ]
+},
+{
+  "query": "Someone is blackmailing me on Instagram",
+  "expected_domains": ["Police Complaint"],
+  "expected_sources": [
+    "Cybercrime Social Media Abuse Reporting Information",
+    "Cybercrime Reporting Basic Information"
+  ]
+},
+{
+  "query": "How can I report cyber crime online",
+  "expected_domains": ["Police Complaint"],
+  "expected_sources": [
+    "Cybercrime Reporting Basic Information"
+  ]
+},
+{
+  "query": "How can I report abuse on social media platforms",
+  "expected_domains": ["Police Complaint"],
+  "expected_sources": [
+    "Cybercrime Social Media Abuse Reporting Information"
+  ]
+}
 ]
 

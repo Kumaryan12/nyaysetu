@@ -1,0 +1,15 @@
+Cybercrime Reporting Basic Information
+
+This document summarizes official-source guidance from the National Cyber Crime Reporting Portal operated under the Ministry of Home Affairs, Government of India.
+
+The National Cyber Crime Reporting Portal is used for reporting cybercrime complaints online. It has special focus on cybercrimes against women and children.
+
+A user may consider using the portal for issues such as online blackmail, cyberstalking, online harassment, threats involving private photos or videos, online financial fraud, cyber fraud, identity misuse, and other cybercrime-related complaints.
+
+If the issue involves immediate physical danger, threats, stalking, extortion, private image abuse, or risk to safety, the user should contact emergency services or the nearest police station in addition to using online reporting mechanisms.
+
+For online financial fraud, the official cybercrime helpline number listed by the portal is 1930.
+
+Before filing a cybercrime complaint, the user should preserve evidence. Useful details may include screenshots, phone numbers, usernames, profile links, transaction IDs, bank/UPI details, URLs, emails, chat history, date and time of incidents, and any threat messages.
+
+NyayaSetu should not investigate the crime or decide guilt. It should guide the user to preserve evidence, use the official National Cyber Crime Reporting Portal, contact police in urgent situations, and seek legal aid or support where needed.
