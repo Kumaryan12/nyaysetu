@@ -61,3 +61,70 @@ class HealthResponse(BaseModel):
     status: str
     app_name: str
     environment: str
+
+
+class ClassifierDebugResponse(BaseModel):
+    user_message: str
+
+    ml_issue_available: bool
+    ml_issue_category: Optional[str] = None
+    ml_issue_confidence: Optional[float] = None
+    ml_issue_top_categories: List[str] = []
+    ml_issue_top_scores: List[float] = []
+
+    rule_issue_category: str
+    rule_issue_confidence: float
+    rule_issue_matched_keywords: List[str] = []
+
+    final_issue_category_before_correction: str
+    final_issue_category_after_correction: str
+    category_correction_reasons: List[str] = []
+
+    ml_urgency_available: bool
+    ml_urgency: Optional[str] = None
+    ml_urgency_confidence: Optional[float] = None
+    ml_urgency_top_urgencies: List[str] = []
+    ml_urgency_top_scores: List[float] = []
+
+    rule_urgency: str
+    rule_urgency_confidence: float
+    rule_urgency_reasons: List[str] = []
+
+    final_urgency_before_correction: str
+    final_urgency_after_correction: str
+    urgency_correction_reasons: List[str] = []
+
+    retrieved_sources: List[SourceSnippet] = []
+
+class ClassifierDebugResponse(BaseModel):
+    user_message: str
+
+    ml_issue_available: bool
+    ml_issue_category: Optional[str] = None
+    ml_issue_confidence: Optional[float] = None
+    ml_issue_top_categories: List[str] = []
+    ml_issue_top_scores: List[float] = []
+
+    rule_issue_category: str
+    rule_issue_confidence: float
+    rule_issue_matched_keywords: List[str] = []
+
+    final_issue_category_before_correction: str
+    final_issue_category_after_correction: str
+    category_correction_reasons: List[str] = []
+
+    ml_urgency_available: bool
+    ml_urgency: Optional[str] = None
+    ml_urgency_confidence: Optional[float] = None
+    ml_urgency_top_urgencies: List[str] = []
+    ml_urgency_top_scores: List[float] = []
+
+    rule_urgency: str
+    rule_urgency_confidence: float
+    rule_urgency_reasons: List[str] = []
+
+    final_urgency_before_correction: str
+    final_urgency_after_correction: str
+    urgency_correction_reasons: List[str] = []
+
+    retrieved_sources: List[SourceSnippet] = []

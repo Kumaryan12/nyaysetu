@@ -8,7 +8,7 @@ from app.core.ml_urgency_classifier import SafeUrgencyClassifier
 from app.core.prompt_templates import build_rag_prompt
 from app.core.urgency_correction_rules import apply_urgency_correction
 from app.core.urgency_detector import detect_urgency
-from app.models.schemas import ChatRequest, ChatResponse
+from app.models.schemas import ChatRequest, ChatResponse, ClassifierDebugResponse
 from app.services.llm_service import GroqLLMService, LLMServiceError
 from app.services.rag_service import RAGService
 
@@ -99,6 +99,92 @@ def classifier_status():
         "ml_urgency_classifier_error": ml_urgency_classifier.error,
     }
 
+@router.post("/debug", response_model=ClassifierDebugResponse)
+def debug_chat(request: ChatRequest) -> ClassifierDebugResponse:
+    """
+    Developer/debug endpoint.
+
+    Shows classifier predictions, correction rules, urgency decisions,
+    and retrieved RAG sources.
+    """
+
+    user_message = request.message
+
+    # Issue classification
+    ml_issue_result = ml_issue_classifier.classify(user_message)
+    rule_issue_result = classify_issue(user_message)
+
+    if ml_issue_result is not None and ml_issue_result.confidence >= 0.55:
+        issue_before_correction = ml_issue_result.category
+    elif rule_issue_result.confidence >= 0.20:
+        issue_before_correction = rule_issue_result.category
+    elif ml_issue_result is not None:
+        issue_before_correction = ml_issue_result.category
+    else:
+        issue_before_correction = "Unknown"
+
+    issue_after_correction, category_correction_reasons = apply_category_correction(
+        user_message=user_message,
+        predicted_category=issue_before_correction,
+    )
+
+    # Urgency classification
+    ml_urgency_result = ml_urgency_classifier.classify(user_message)
+    rule_urgency_result = detect_urgency(user_message)
+
+    if ml_urgency_result is not None and ml_urgency_result.confidence >= 0.55:
+        urgency_before_correction = ml_urgency_result.urgency
+    elif rule_urgency_result.confidence >= 0.20:
+        urgency_before_correction = rule_urgency_result.urgency
+    elif ml_urgency_result is not None:
+        urgency_before_correction = ml_urgency_result.urgency
+    else:
+        urgency_before_correction = "Unknown"
+
+    urgency_after_correction, urgency_correction_reasons = apply_urgency_correction(
+        user_message=user_message,
+        predicted_urgency=urgency_before_correction,
+    )
+
+    # RAG retrieval
+    sources = rag_service.retrieve_sources(
+        query=user_message,
+        top_k=5,
+    )
+
+    return ClassifierDebugResponse(
+        user_message=user_message,
+
+        ml_issue_available=ml_issue_result is not None,
+        ml_issue_category=ml_issue_result.category if ml_issue_result else None,
+        ml_issue_confidence=ml_issue_result.confidence if ml_issue_result else None,
+        ml_issue_top_categories=ml_issue_result.top_categories if ml_issue_result else [],
+        ml_issue_top_scores=ml_issue_result.top_scores if ml_issue_result else [],
+
+        rule_issue_category=rule_issue_result.category,
+        rule_issue_confidence=rule_issue_result.confidence,
+        rule_issue_matched_keywords=rule_issue_result.matched_keywords,
+
+        final_issue_category_before_correction=issue_before_correction,
+        final_issue_category_after_correction=issue_after_correction,
+        category_correction_reasons=category_correction_reasons,
+
+        ml_urgency_available=ml_urgency_result is not None,
+        ml_urgency=ml_urgency_result.urgency if ml_urgency_result else None,
+        ml_urgency_confidence=ml_urgency_result.confidence if ml_urgency_result else None,
+        ml_urgency_top_urgencies=ml_urgency_result.top_urgencies if ml_urgency_result else [],
+        ml_urgency_top_scores=ml_urgency_result.top_scores if ml_urgency_result else [],
+
+        rule_urgency=rule_urgency_result.urgency,
+        rule_urgency_confidence=rule_urgency_result.confidence,
+        rule_urgency_reasons=rule_urgency_result.reasons,
+
+        final_urgency_before_correction=urgency_before_correction,
+        final_urgency_after_correction=urgency_after_correction,
+        urgency_correction_reasons=urgency_correction_reasons,
+
+        retrieved_sources=sources,
+    )
 
 @router.post("", response_model=ChatResponse)
 def chat(request: ChatRequest) -> ChatResponse:
