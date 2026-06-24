@@ -1,163 +1,189 @@
 import hashlib
 import json
-import re
-from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Dict, List
 
-from app.services.document_loader import LoadedDocument
+from pydantic import BaseModel
 
 
-@dataclass
-class DocumentChunk:
+class DocumentChunk(BaseModel):
     chunk_id: str
     text: str
-    chunk_index: int
-    metadata: Dict[str, str]
+    metadata: Dict
 
 
-def normalize_text_for_chunking(text: str) -> str:
-    text = text.replace("\r", "\n")
-    text = re.sub(r"[ \t]+", " ", text)
-    text = re.sub(r"\n{3,}", "\n\n", text)
-    return text.strip()
+def split_text_into_chunks(
+    text: str,
+    chunk_size_words: int = 450,
+    overlap_words: int = 75,
+) -> List[str]:
+    """
+    Splits text into overlapping word chunks.
+    """
 
+    words = text.split()
 
-def generate_chunk_id(source_identifier: str, chunk_index: int) -> str:
-    raw = f"{source_identifier}::{chunk_index}"
-    return hashlib.sha256(raw.encode("utf-8")).hexdigest()[:16]
+    if not words:
+        return []
 
-
-def split_words_with_overlap(
-    words: List[str],
-    chunk_size_words: int,
-    overlap_words: int,
-) -> List[List[str]]:
-
-    if chunk_size_words <= 0:
-        raise ValueError("chunk_size_words must be positive.")
-
-    if overlap_words < 0:
-        raise ValueError("overlap_words cannot be negative.")
-
-    if overlap_words >= chunk_size_words:
-        raise ValueError("overlap_words must be smaller than chunk_size_words.")
-
-    chunks: List[List[str]] = []
-
+    chunks = []
     start = 0
 
     while start < len(words):
         end = start + chunk_size_words
         chunk_words = words[start:end]
+        chunk_text = " ".join(chunk_words).strip()
 
-        if chunk_words:
-            chunks.append(chunk_words)
+        if chunk_text:
+            chunks.append(chunk_text)
+
+        if end >= len(words):
+            break
 
         start = end - overlap_words
 
     return chunks
 
 
-def chunk_document(
-    document: LoadedDocument,
-    chunk_size_words: int = 450,
-    overlap_words: int = 75,
-) -> List[DocumentChunk]:
-    normalized_text = normalize_text_for_chunking(document.text)
+def make_chunk_id(
+    source_id: str,
+    chunk_index: int,
+    chunk_text: str,
+) -> str:
+    """
+    Creates a stable unique chunk ID.
 
-    words = normalized_text.split()
+    Important:
+    The ID includes source_id and chunk_index, not only text.
+    This prevents duplicate IDs when two documents contain similar text.
+    """
 
-    if not words:
-        return []
-
-    source_identifier = (
-        document.metadata.get("url")
-        or document.metadata.get("file_path")
-        or document.metadata.get("title")
-        or "unknown_source"
-    )
-
-    word_chunks = split_words_with_overlap(
-        words=words,
-        chunk_size_words=chunk_size_words,
-        overlap_words=overlap_words,
-    )
-
-    chunks: List[DocumentChunk] = []
-
-    for index, chunk_words in enumerate(word_chunks):
-        chunk_text = " ".join(chunk_words).strip()
-
-        chunk_metadata = dict(document.metadata)
-        chunk_metadata["chunk_index"] = str(index)
-        chunk_metadata["chunk_size_words"] = str(len(chunk_words))
-
-        chunks.append(
-            DocumentChunk(
-                chunk_id=generate_chunk_id(source_identifier, index),
-                text=chunk_text,
-                chunk_index=index,
-                metadata=chunk_metadata,
-            )
-        )
-
-    return chunks
+    raw = f"{source_id}::{chunk_index}::{chunk_text}"
+    return hashlib.sha256(raw.encode("utf-8")).hexdigest()[:16]
 
 
 def chunk_documents(
-    documents: List[LoadedDocument],
+    documents: List,
     chunk_size_words: int = 450,
     overlap_words: int = 75,
 ) -> List[DocumentChunk]:
+    """
+    Converts loaded documents into chunks.
+
+    Each chunk receives:
+    - unique chunk_id
+    - chunk text
+    - metadata copied from source document
+    """
 
     all_chunks: List[DocumentChunk] = []
 
-    for document in documents:
-        chunks = chunk_document(
-            document=document,
+    for document_index, document in enumerate(documents):
+        text = document.text
+        metadata = dict(document.metadata)
+
+        source_id = (
+            metadata.get("source_id")
+            or metadata.get("file_name")
+            or metadata.get("title")
+            or f"document_{document_index}"
+        )
+
+        text_chunks = split_text_into_chunks(
+            text=text,
             chunk_size_words=chunk_size_words,
             overlap_words=overlap_words,
         )
 
-        all_chunks.extend(chunks)
+        for chunk_index, chunk_text in enumerate(text_chunks):
+            chunk_id = make_chunk_id(
+                source_id=str(source_id),
+                chunk_index=chunk_index,
+                chunk_text=chunk_text,
+            )
 
-    return all_chunks
+            chunk_metadata = dict(metadata)
+            chunk_metadata["chunk_index"] = chunk_index
+            chunk_metadata["source_id"] = str(source_id)
+
+            all_chunks.append(
+                DocumentChunk(
+                    chunk_id=chunk_id,
+                    text=chunk_text,
+                    metadata=chunk_metadata,
+                )
+            )
+
+    # Safety check: remove duplicate IDs if any still occur.
+    seen_ids = set()
+    unique_chunks: List[DocumentChunk] = []
+
+    for chunk in all_chunks:
+        if chunk.chunk_id in seen_ids:
+            print("Skipping duplicate chunk ID:", chunk.chunk_id)
+            continue
+
+        seen_ids.add(chunk.chunk_id)
+        unique_chunks.append(chunk)
+
+    return unique_chunks
 
 
-def save_chunks_jsonl(chunks: List[DocumentChunk], output_path: str) -> None:
+def save_chunks_jsonl(
+    chunks: List[DocumentChunk],
+    output_path: str,
+) -> None:
+    """
+    Saves chunks to JSONL format.
+    """
 
-    path = Path(output_path)
-    path.parent.mkdir(parents=True, exist_ok=True)
+    output_file = Path(output_path)
+    output_file.parent.mkdir(parents=True, exist_ok=True)
 
-    with path.open("w", encoding="utf-8") as f:
+    with output_file.open("w", encoding="utf-8") as f:
         for chunk in chunks:
-            row = asdict(chunk)
-            f.write(json.dumps(row, ensure_ascii=False) + "\n")
+            record = {
+                "id": chunk.chunk_id,
+                "text": chunk.text,
+                "metadata": chunk.metadata,
+            }
+
+            f.write(json.dumps(record, ensure_ascii=False) + "\n")
 
 
 def load_chunks_jsonl(input_path: str) -> List[DocumentChunk]:
+    """
+    Loads chunks from a JSONL file.
 
-    path = Path(input_path)
+    Expected JSONL format:
+    {
+      "id": "...",
+      "text": "...",
+      "metadata": {...}
+    }
+    """
 
-    if not path.exists():
-        raise FileNotFoundError(f"Chunks file not found: {path}")
+    input_file = Path(input_path)
+
+    if not input_file.exists():
+        raise FileNotFoundError(f"Chunks file not found: {input_file}")
 
     chunks: List[DocumentChunk] = []
 
-    with path.open("r", encoding="utf-8") as f:
-        for line in f:
-            if not line.strip():
+    with input_file.open("r", encoding="utf-8") as f:
+        for line_number, line in enumerate(f, start=1):
+            line = line.strip()
+
+            if not line:
                 continue
 
-            row = json.loads(line)
+            record = json.loads(line)
 
             chunks.append(
                 DocumentChunk(
-                    chunk_id=row["chunk_id"],
-                    text=row["text"],
-                    chunk_index=int(row["chunk_index"]),
-                    metadata=row.get("metadata", {}),
+                    chunk_id=record["id"],
+                    text=record["text"],
+                    metadata=record.get("metadata", {}),
                 )
             )
 

@@ -1,0 +1,89 @@
+Title: Digital Police CCTNS About
+Publisher: Ministry of Home Affairs / NCRB
+Jurisdiction: India
+URL: https://digitalpolice.gov.in/DigitalPolice/AboutUs
+Domain: Police Complaint
+Downloaded on: 2026-06-24
+
+भारत सरकार
+GOVERNMENT OF INDIA
+गृह मंत्रालय
+MINISTRY OF HOME AFFAIRS
+Digital
+Police
+Service
+About Us
+Crime and Criminal Tracking Network & Systems (CCTNS)
+The Crime and Criminal Tracking Network & Systems (CCTNS) project was launched in 2009 as a plan scheme. It is an ambitious project, which aims at putting in place a comprehensive and integrated system for enhancing efficiency and effectiveness of policing at the police station level throughout the country. As on 1st July, 2021, CCTNS application was deployed in 16,276 (100%) and connectivity has been provided in 15735 (97%) out of 16,276 Police Stations (PSs) across the country. During the period from 30.06.2019 to 31.06.2021, CCTNS generated FIR forms (IIF-1) submitted in courts has shown an increase by 15% i.e. from 70 % to 85%. The number of Police stations with the ability to search on National Database has increased by 762 i.e. from 14,112 to 14,874 PSs. CCTNS National Database has grown to about 28 Crores records. Digital Police Portal has been converted into master police portal to provide linkages with all citizen portals of States/UTs for ease of accessibility. BhartNet connectivity has started rolling out in 127 locations which are difficult and technically non-feasible sites in remote areas of the country after lot of efforts done by NCRB with DOT and USOF. Due to continuous follow-up, implementation of CCTNS also progressed well in Bihar State covering 894 PSs. An Agreement between NCRB and C-DAC was signed for Enhancement and Maintenance of CAS (State) 5.0 Application under CCTNS. CAS (Centre) Application went Go-Live on 25.02.2021.
+About NCRB
+NCRB was set-up in 1986 to function as a repository of information on crime and criminals so as to assist the investigators in linking crime to the perpetrators based on the recommendations of the Tandon Committee, National Police Commission (1977-1981) and the MHA’s Task force (1985).
+Subsequently, NCRB was entrusted with the responsibility for monitoring, coordinating and implementing the Crime and Criminal Tracking Network & Systems (CCTNS) project in the year 2009. The project has connected 15000+ police stations and 6000 higher offices of police in the country.
+On 21st August 2017, NCRB launched National Digital Police Portal (https://digitalpolice.gov.in). It is a master police portal which caters both to the citizens as well as to the police personnel. It allows police personnel to search for a criminal / suspect on the CCTNS database, besides access to many other police utilities like Cri-MAC, NDSO, CyTrain etc. To citizens, it provides various services like filing of complaints online and seeking antecedent verification of tenants, domestic helps, drivers etc., and newly launched citizen services like, search for missing persons, NOC for purchase of second hand vehicle and information on Proclaimed Offenders.
+The Bureau has also been entrusted to maintain National Database of Sexual Offenders (NDSO) and share it with the States/UTs on regular basis. NCRB has also been designated as the Central Nodal Agency to manage technical and operational functions of the ‘Online Cyber-Crime Reporting Portal’ through which any citizen can lodge a complaint or upload a video clip as an evidence of crime related to child pornography, rape/gang rape. NCRB has also launched CyTrain, a portal for online training of different stakeholders in cybercrime investigations and prosecution. NCRB also maintains Counterfeit Currency Information and Management System (FICN) and Integrated Monitoring on Terrorism (iMoT) applications.
+Cri-MAC (Crime – Multi Agency Centre) is yet another IT tool launched by NCRB this year as per the recommendation of DGPs/IGPs Conference 2018, for sharing of information on Crime / Criminals – sending alerts on Inter-State Criminals / Gangs to States/UTs, etc. and providing email/sms based communication module for inter agency / unit co-ordination.
+NCRB also compiles and publishes National Crime Statistics i.e. Crime in India, Accidental Deaths & Suicides and also Prison Statistics. These publications serve as principal reference point by policy makers, police, criminologists, researchers and media, both in India and abroad. NCRB has been conferred with Silver award during Digital India Awards 2016 under Open Data Championship category from the Government of India for uploading Crime Statistics since 1953 on Govt. Portal.
+The Central Finger Print Bureau under NCRB is a national repository of all fingerprints in the country and has more than one million ten-digit finger prints database of criminals both convicted and arrested and provides for search facility on Fingerprint Analysis and Criminal Tracing System (FACTS). Through the proposed NAFIS System to be commissioned by the year end, all States will be able to upload and search finger prints directly to/from NCRB national database. This will improve efficiency of fingerprint storage and search drastically and prove to be a game changer in police investigations. Further, NCRB publishes ‘Finger Prints in India’ annually and organizes the annual conference of Directors of Finger Print Bureaux of all the states to deliberate on topical issues related to the use of fingerprint science in police investigations.
+NCRB also assists various States in capacity building in the area of Information Technology, CCTNS, Finger Prints, Network security and Digital Forensics through its training centers in Delhi, Kolkata. It also assists four Regional Police Computer Training Centres (RPCTC) at Hyderabad, Gandhi Nagar, Lucknow and Kolkata.
+The Bureau has moved into its new office complex at Mahipalpur, which was inaugurated by the Hon’ble Union Home Minister Shri Rajnath Singh on 8th September 2017.
+Future road-map and action plan include:
+1. CCTNS Phase II:
+1. Linkages of Specialized Solutions like National Automated Fingerprint Identification System (NAFIS) and Advanced Facial Recognition System (AFRS) in CCTNS. Integration of CCTNS with other central databases, viz Vaahan & Saarthi of MoRTH, Arms Licenses of MHA, Passport of MEA, IVFRT of GoI, MHA and TrackChild of MWCD.
+2. Hardware Infrastructure upgrade for all PSs, HOs, NDC, SDCs, and DRCs.
+3. Connecting all FIR Registering Units presently not covered under CCTNS project like Excise, Forest, Transport, CBI, NCB, ED, NIA, RPF etc.
+4. Robust Network Connectivity for Police Stations through BharatNet / NOFN or other service providers.
+5. Application upgrade of CCTNS through faster search and user friendly interface
+2. ICJS :
+To assist as a nodal agency in the operationalization of the Interoperable Criminal Justice System (ICJS), a project being spearheaded by eCommittee of the hon’ble Supreme Court for online exchange of data among various pillars of the criminal justice system.
+3. Crime Data Analytics:
+For strategic planning & predictive policing
+Legal amendments like Identification of Prisoners Act, 1920,
+for empowering investigating officers across the country to take advance biometrics from Arrested/Convicted persons.
+The Bureau has also started student internship programs for mutual benefit. It looks forward to fostering of partnership with universities, researchers, NGOs and public
+Central Citizen Services - National Crime Records Bureau
+A Web Portal has been created by NCRB for the benefit of citizens. It hosts four citizen services at the national level, namely ‘Missing Person Search’, ‘Generate Vehicle NOC’, ‘Proclaimed Offenders Information’ and ‘Locate Nearest PS. This portal can be accessed through URL
+‘digitalpolicecitizenservices.gov.in’
+or through a link in the master Digital Police Portal namely 'digitalpolice.gov.in'.
+a) Missing Person Search:
+is a citizen service through which people can search at the convenience of their homes for their missing kin against the national database of recovered unidentified persons/ dead bodies. This has benefitted hapless relatives of missing persons and saved them from running around different police stations, Welfare Homes, morgues etc. in search of them, since details such as photographs are available in CCTNS and are now accessible to citizens through this portal.
+This search allows citizens to enter the search criteria and match the same with either that of unidentified found persons or unidentified recovered dead bodies across the country. As the search is through parametrized query, the accuracy of fetched results is generally high.
+b) Generate Vehicle NOC:
+This service allows citizens to ascertain the status of a vehicle before its purchase, as to whether it is involved in any crime or a stolen vehicle. The search could be made against a national database based on registration number or chassis number or engine number or type, make or model or any combination of these parameters. One can also generate and download the relevant NOC, required by the RTO before effecting the change/transfer of ownership. The erstwhile system of visiting physically to the NCRB office is no longer required now.
+c) Proclaimed Offenders:
+On the direction of Hon’ble Supreme Court of India, a portal was created at national level for showing the details of Proclaimed Offenders to assist in inter-state cooperation, efficient Law Enforcement and in seeking Citizen help. Photograph of the proclaimed offenders with name, relative details, age, gender, State, District, PS and date of court order are available on the portal. Citizens can search the Proclaimed Offender on the portal and alert the Police.
+d) Locate Nearest Police Station:
+based mobile app that facilitates to locate, contact and navigate to nearest police station, in emergency situations. App is preloaded with authentic Longitude and Latitude of police stations as collected from all States/UTs police departments. The app displays police stations within 20km radius while connected to internet; otherwise displays all police stations. On selecting a particular police station, app will display particulars of the selected police station along with options to call &navigate to that police station.This app is very much useful to general public as it has authentic GIS information of police stations (unlike the one available in Google Maps, in which anyone can add a point/police stations).
+Missing Person Search
+and
+Generate Vehicle NOC
+services were launched on 29th January 2020, and
+Proclaimed Offenders Information
+service was launched on 21st August 2020.
+Locate nearest Police Station Mobile App
+service was launched on 3rd February 2021. These services promote the ‘Ease of Living’.
+Ministry of Home Affairs (MHA)
+National Crime Records Bureau (NCRB)
+Central Bureau of Investigation (CBI)
+National Investigation Agency (NIA)
+E-Courts
+MeitY
+Central Police Organizations
+Other Links
+Vahan Samanvay
+A Video on Digital Police Portal
+REACH US
+Ministry of Home Affairs, North Block
+Central Secretariat
+New Delhi - 110001
+Police Modernisation Division, MHA
+Women Safety Division, MHA,North Block,
+New Delhi –Pin code: 110011
+Subscribe
+National Crime Records Bureau National Highway-8,
+Near SSB, Mahipalpur - 110037
+Email: dct[at]ncrb[dot]nic[dot]in
+Hyperlink Policy
+Accessibility Statement
+Terms and Conditions
+Sitemap
+© Content Owned by National Crime Records Bureau(NCRB), Government of India Site Maintained by National Informatics Centre
+Visitors Count 35539508

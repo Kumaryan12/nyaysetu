@@ -1,0 +1,92 @@
+[
+  {
+    "id": "nalsa_legal_aid",
+    "title": "NALSA Legal Aid",
+    "url": "https://nalsa.gov.in/legal-aid/",
+    "domain": "Legal Aid",
+    "publisher": "National Legal Services Authority",
+    "jurisdiction": "India",
+    "source_type": "official_webpage"
+  },
+  {
+    "id": "nalsa_faq",
+    "title": "NALSA FAQs",
+    "url": "https://nalsa.gov.in/faqs/",
+    "domain": "Legal Aid",
+    "publisher": "National Legal Services Authority",
+    "jurisdiction": "India",
+    "source_type": "official_webpage"
+  },
+  {
+    "id": "nalsa_womens_assistance",
+    "title": "NALSA Assistance for Women",
+    "url": "https://nalsa.gov.in/womens-assistance/",
+    "domain": "Domestic Violence / Safety",
+    "publisher": "National Legal Services Authority",
+    "jurisdiction": "India",
+    "source_type": "official_webpage"
+  },
+  {
+    "id": "consumer_helpline_home",
+    "title": "National Consumer Helpline",
+    "url": "https://consumerhelpline.gov.in/",
+    "domain": "Consumer Complaint",
+    "publisher": "Department of Consumer Affairs, Government of India",
+    "jurisdiction": "India",
+    "source_type": "official_webpage"
+  },
+  {
+    "id": "consumer_helpline_about",
+    "title": "National Consumer Helpline About",
+    "url": "https://consumerhelpline.gov.in/public/about",
+    "domain": "Consumer Complaint",
+    "publisher": "Department of Consumer Affairs, Government of India",
+    "jurisdiction": "India",
+    "source_type": "official_webpage"
+  },
+  {
+    "id": "consumer_helpline_contact",
+    "title": "National Consumer Helpline Contact",
+    "url": "https://consumerhelpline.gov.in/public/contact",
+    "domain": "Consumer Complaint",
+    "publisher": "Department of Consumer Affairs, Government of India",
+    "jurisdiction": "India",
+    "source_type": "official_webpage"
+  },
+  {
+    "id": "digital_police",
+    "title": "Digital Police Citizen Services",
+    "url": "https://digitalpolice.gov.in/",
+    "domain": "Police Complaint",
+    "publisher": "Ministry of Home Affairs",
+    "jurisdiction": "India",
+    "source_type": "official_webpage"
+  },
+  {
+    "id": "digital_police_about_cctns",
+    "title": "Digital Police CCTNS About",
+    "url": "https://digitalpolice.gov.in/DigitalPolice/AboutUs",
+    "domain": "Police Complaint",
+    "publisher": "Ministry of Home Affairs / NCRB",
+    "jurisdiction": "India",
+    "source_type": "official_webpage"
+  },
+  {
+    "id": "cpgrams_home",
+    "title": "CPGRAMS Public Grievance Portal",
+    "url": "https://pgportal.gov.in/",
+    "domain": "Public Grievance",
+    "publisher": "Department of Administrative Reforms and Public Grievances",
+    "jurisdiction": "India",
+    "source_type": "official_webpage"
+  },
+  {
+    "id": "cpgrams_lodge_grievance",
+    "title": "CPGRAMS Lodge Grievance",
+    "url": "https://pgportal.gov.in/Home/LodgeGrievance",
+    "domain": "Public Grievance",
+    "publisher": "Department of Administrative Reforms and Public Grievances",
+    "jurisdiction": "India",
+    "source_type": "official_webpage"
+  }
+]

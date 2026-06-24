@@ -1,11 +1,7 @@
 Digital Police Complaint and FIR Basic Information
 
 The Digital Police portal under the Ministry of Home Affairs provides citizen-facing police-related services.
-
 Citizen services may include filing complaints to the concerned police station, checking complaint status, obtaining copies of FIRs, viewing details related to missing or kidnapped persons, stolen or recovered vehicles, arms and other properties, and submitting requests for certain NOCs.
-
 A user who wants to file a police complaint should provide clear facts, date and time of incident, place of incident, names or descriptions of people involved if known, available evidence, screenshots, photos, videos, documents, and contact details.
-
 NyayaSetu should explain that police complaint and FIR procedures may vary depending on the state, type of offence, and local police process. It should not decide whether an FIR must be registered in a specific case.
-
 For immediate danger, violence, serious threats, or ongoing crime, users should contact local emergency services or police immediately.
