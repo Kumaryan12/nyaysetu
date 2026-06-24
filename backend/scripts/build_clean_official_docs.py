@@ -1,7 +1,7 @@
 import json
 import re
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing import List, Tuple
 
 
 BACKEND_ROOT = Path(__file__).resolve().parents[1]
@@ -12,22 +12,22 @@ CLEAN_DIR = BACKEND_ROOT / "app" / "data" / "official_docs_clean"
 
 DROP_EXACT = {
     "share on facebook",
-"share of x (formerly twitter)",
-"about nalsa",
-"introduction",
-"promoting inclusive legal system",
-"vision and mission",
-"organogram",
-"patron-in-chief",
-"former patrons-in-chief",
-"executive chairman",
-"former executive chairman",
-"members",
-"member secretaries, nalsa",
-"directory",
-"acts & rules",
-"legal aid",
-"grants & accounts",
+    "share of x (formerly twitter)",
+    "about nalsa",
+    "introduction",
+    "promoting inclusive legal system",
+    "vision and mission",
+    "organogram",
+    "patron-in-chief",
+    "former patrons-in-chief",
+    "executive chairman",
+    "former executive chairman",
+    "members",
+    "member secretaries, nalsa",
+    "directory",
+    "acts & rules",
+    "legal aid",
+    "grants & accounts",
     "home",
     "about",
     "contact",
@@ -88,9 +88,11 @@ DROP_EXACT = {
     "subscribe",
 }
 
+
 DROP_CONTAINS = [
     "total visitors",
     "last updated on",
+    "last update:",
     "best viewed",
     "this site is designed",
     "copyright",
@@ -107,8 +109,11 @@ DROP_CONTAINS = [
     "hyperlink policy",
     "accessibility statement",
     "terms and conditions",
+    "terms & conditions",
     "sitemap",
     "web information manager",
+    "website content managed",
+    "visitor count",
 ]
 
 
@@ -347,6 +352,7 @@ def clean_nalsa(source_id: str, lines: List[str]) -> List[str]:
 
     return generic_clean_body(lines)
 
+
 def clean_consumer(source_id: str, lines: List[str]) -> List[str]:
     lines = keep_from_marker(
         lines,
@@ -394,6 +400,29 @@ def clean_digital_police(source_id: str, lines: List[str]) -> List[str]:
     return generic_clean_body(lines)
 
 
+def clean_cpgrams(source_id: str, lines: List[str]) -> List[str]:
+    lines = keep_from_marker(
+        lines,
+        markers=[
+            "any grievance sent by email",
+            "about cpgrams",
+            "centralised public grievance",
+        ],
+    )
+
+    lines = stop_after_marker(
+        lines,
+        stop_markers=[
+            "what's new",
+            "register / login",
+            "this site is designed",
+            "web information manager",
+        ],
+    )
+
+    return generic_clean_body(lines)
+
+
 def clean_labour(source_id: str, lines: List[str]) -> List[str]:
     if source_id == "chief_labour_commissioner":
         lines = keep_from_marker(
@@ -418,6 +447,31 @@ def clean_labour(source_id: str, lines: List[str]) -> List[str]:
             ],
         )
 
+    elif source_id == "eshram_grievance":
+        lines = keep_from_marker(
+            lines,
+            markers=[
+                "there would be feature to register grievance",
+                "register grievance",
+                "view the grievance",
+                "grievance redressal officer",
+            ],
+        )
+
+        lines = stop_after_marker(
+            lines,
+            stop_markers=[
+                "stakeholders:",
+                "accessibility statement",
+                "terms & conditions",
+                "disclaimer",
+                "website policies",
+                "last update",
+                "total visitors",
+                "copyright",
+            ],
+        )
+
     elif source_id == "samadhan_portal":
         lines = keep_from_marker(
             lines,
@@ -426,6 +480,40 @@ def clean_labour(source_id: str, lines: List[str]) -> List[str]:
                 "grievance",
                 "labour",
                 "workers",
+            ],
+        )
+
+    elif source_id == "samadhan_faqs":
+        lines = keep_from_marker(
+            lines,
+            markers=[
+                "wages",
+                "claim",
+                "bonus",
+                "grievance",
+                "overtime",
+            ],
+        )
+
+    elif source_id == "samadhan_contact":
+        lines = keep_from_marker(
+            lines,
+            markers=[
+                "contact",
+                "helpdesk",
+                "labour",
+                "grievance",
+            ],
+        )
+
+    elif source_id == "samadhan_about":
+        lines = keep_from_marker(
+            lines,
+            markers=[
+                "samadhan",
+                "about samadhan",
+                "labour",
+                "grievance",
             ],
         )
 
@@ -442,22 +530,122 @@ def clean_labour(source_id: str, lines: List[str]) -> List[str]:
     return generic_clean_body(lines)
 
 
-def clean_cpgrams(source_id: str, lines: List[str]) -> List[str]:
-    lines = keep_from_marker(
-        lines,
-        markers=[
-            "any grievance sent by email",
-            "about cpgrams",
-            "centralised public grievance",
-        ],
-    )
+def clean_labour_pdf(source_id: str, lines: List[str]) -> List[str]:
+    """
+    Cleans labour law PDF text extracted from India Code.
+    """
+
+    if source_id == "code_on_wages_2019":
+        lines = keep_from_marker(
+            lines,
+            markers=[
+                "the code on wages, 2019",
+                "chapter i",
+                "preliminary",
+                "definitions",
+            ],
+        )
+
+    elif source_id == "payment_of_wages_act_1936":
+        lines = keep_from_marker(
+            lines,
+            markers=[
+                "the payment of wages act, 1936",
+                "an act to regulate the payment of wages",
+                "short title, extent, commencement and application",
+            ],
+        )
+
+    return generic_clean_body(lines)
+
+
+def clean_cybercrime(source_id: str, lines: List[str]) -> List[str]:
+    if source_id == "cybercrime_portal_home":
+        lines = keep_from_marker(
+            lines,
+            markers=[
+                "report cyber crime",
+                "women/children related crime",
+                "financial fraud",
+                "other cyber crime",
+                "track your complaint",
+            ],
+        )
+
+    elif source_id == "cybercrime_report_complaint":
+        lines = keep_from_marker(
+            lines,
+            markers=[
+                "this portal caters to complaints",
+                "cyber crimes against women and children",
+                "complaints reported on this portal",
+                "report cyber crime",
+            ],
+        )
+
+    elif source_id == "cybercrime_faq":
+        lines = keep_from_marker(
+            lines,
+            markers=[
+                "frequently asked questions",
+                "women/child",
+                "report crime related to women",
+                "cyber crime",
+            ],
+        )
+
+    elif source_id == "cybercrime_track_status":
+        lines = keep_from_marker(
+            lines,
+            markers=[
+                "track your complaint",
+                "complaint status",
+                "acknowledgement",
+            ],
+        )
+
+    elif source_id == "cybercrime_report_abuse_social_media":
+        lines = keep_from_marker(
+            lines,
+            markers=[
+                "report abuse to social media intermediary",
+                "citizens can report any online illegal activity",
+                "facebook",
+                "instagram",
+                "whatsapp",
+            ],
+        )
+
+    elif source_id == "cybercrime_categories":
+        lines = keep_from_marker(
+            lines,
+            markers=[
+                "learn about cybercrime",
+                "in general cybercrime may be defined",
+                "below is a list for some of the cybercrimes",
+                "child pornography",
+                "cyber bullying",
+                "cyber stalking",
+                "online sextortion",
+                "phishing",
+            ],
+        )
 
     lines = stop_after_marker(
         lines,
         stop_markers=[
-            "what's new",
-            "register / login",
-            "this site is designed",
+            "feedback",
+            "website content managed",
+            "visitor count",
+            "last updated",
+            "accessibility statement",
+            "terms and conditions",
+            "terms & conditions",
+            "website policies",
+            "privacy policy",
+            "disclaimer",
+            "help",
+            "sitemap",
             "web information manager",
         ],
     )
@@ -481,55 +669,29 @@ def choose_cleaner(source_id: str):
 
     if source_id.startswith("cpgrams"):
         return clean_cpgrams
-    
+
+    if source_id.startswith("cybercrime_"):
+        return clean_cybercrime
+
     if source_id in {
         "code_on_wages_2019",
         "payment_of_wages_act_1936",
     }:
         return clean_labour_pdf
-    
+
     if source_id in {
         "samadhan_portal",
+        "samadhan_faqs",
+        "samadhan_contact",
+        "samadhan_about",
         "chief_labour_commissioner",
         "ministry_labour_home",
+        "eshram_grievance",
+        "eshram_grievance_management",
     }:
         return clean_labour
 
     return clean_default
-
-def clean_labour_pdf(source_id: str, lines: List[str]) -> List[str]:
-    """
-    Cleans labour law PDF text extracted from India Code.
-    Keeps useful sections and removes excessive arrangement/index pages where possible.
-    """
-
-    if source_id == "code_on_wages_2019":
-        lines = keep_from_marker(
-            lines,
-            markers=[
-                "the code on wages, 2019",
-                "chapter i",
-                "preliminary",
-                "definitions",
-            ],
-        )
-
-        # Keep the Act text, but remove excessive later schedules/rules if needed later.
-        return generic_clean_body(lines)
-
-    if source_id == "payment_of_wages_act_1936":
-        lines = keep_from_marker(
-            lines,
-            markers=[
-                "the payment of wages act, 1936",
-                "an act to regulate the payment of wages",
-                "short title, extent, commencement and application",
-            ],
-        )
-
-        return generic_clean_body(lines)
-
-    return generic_clean_body(lines)
 
 
 def clean_file(raw_path: Path) -> None:
@@ -573,7 +735,6 @@ def main() -> None:
 
     CLEAN_DIR.mkdir(parents=True, exist_ok=True)
 
-    # Clear old generated clean txt/metadata files only.
     for path in CLEAN_DIR.glob("*.txt"):
         path.unlink()
 
