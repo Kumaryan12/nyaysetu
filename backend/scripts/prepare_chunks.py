@@ -9,7 +9,7 @@ from app.services.chunker import chunk_documents, save_chunks_jsonl
 from app.services.document_loader import load_documents_from_directory
 
 
-OFFICIAL_DOCS_DIR = BACKEND_ROOT / "app" / "data" / "official_docs"
+OFFICIAL_DOCS_DIR = BACKEND_ROOT / "app" / "data" / "rag_docs"
 OUTPUT_CHUNKS_PATH = BACKEND_ROOT / "app" / "data" / "processed" / "chunks.jsonl"
 
 
